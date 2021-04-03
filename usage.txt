@@ -1,0 +1,39 @@
+Usage:
+  bars [options] [file]
+
+OPTIONS
+  -a            generate HTML snippet
+  -b            HTML output format, "t" using text chars (default) or "h" html css bars
+  -c<c>         Decimal point separator, default is "."
+  -d<n>         number of positions after decimal point for display of percentage, default 0
+  -e<t>         if text exceeds limit, "d" replace last three characters with 3 dots "..." or
+	            "e" the last char with unicode ellipsis (U+2026) "…" (default)
+  -f<t>         output format for text, default "tsb"="text, separator, char-bar-chart",
+	            possible format options are:
+	       	     * t    text
+		         * v    value = the given value
+		         * p    percent = value in percent
+		         * b    character based bar
+		         * s    separator as defined
+		         * V    inverted bar with containing value
+		         * P    inverted bar with containing percentage
+		         * B    inverted bar without values
+    -h -?       print this help
+	-t<t>       input filename, default stdin
+	-l<n>       output length for text output (Default terminal-width or 80 chars)
+	-m<t>       lines starting with <t> are ignored as they are comment lines.
+	            Default "#". Omitting <t> will define that there are no comments
+	-n          (reserved)
+	-o<t>       Output filename. Output to stdout is default.
+	-s<t>       separator definition or alternative string
+	 			 *  s      space (default)
+	 			 *  t      tab
+	 			 *  c      Comma
+	 			 *  p      pipe
+	 			 *  e      semicolon
+	 			 *  o      colon
+	 			 *  other  any self defined
+	-sort       sort by value
+	-t<n>       limit text output to n chars. Default 80% of width
+	-v          verbose mode, default false
+	-z          values are at the end of the input file, default at the beginning

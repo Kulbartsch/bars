@@ -1,0 +1,11 @@
+# Performance test results
+1.67  C (gcc -O2)
+3.97  Go
+1.87  Go parallel
+3.75  V (prod)
+11.96 V (dev)
+7.18  Javascript
+51.32 Forth (GForth)
+126.0  Guile
+180.89 Python
+ # end
