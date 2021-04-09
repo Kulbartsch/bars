@@ -1,5 +1,6 @@
 # Performance test results
-12 test
+12 täst
+50,55 comma
 1.67  C (gcc -O2)
 3.97  Go
 Go 4
@@ -9,8 +10,8 @@ Go parallel 2
 11.96 V (dev)
 7.18  Javascript
 Javascript 7
-51.32 Forth (GForth)
-126.0  Guile
+51.32  Forth (GForth)
+126    Guile
 180.89 Python
 Python 180
  # end

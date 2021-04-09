@@ -1,0 +1,4 @@
+[Bill]
+[price, article]
+7,90€   Pizza
+19,90€  Champange
