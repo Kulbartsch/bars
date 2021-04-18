@@ -1,4 +1,8 @@
-[Bill]
-[price, article]
-7,90€   Pizza
-19,90€  Champange
+[Your Restaurant Bill]
+[price    article]
+  7,90€   Pizza Napoli
+ 19,90€   Wine, Bottle
+  8,70€   Spaghetti
+ 14,90€   Fish of the day
+  1,50€   Espresso
+  2,50€   Café correto

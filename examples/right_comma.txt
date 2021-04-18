@@ -1,0 +1,8 @@
+# Performance test results
+täst 12
+ comma      50,55
+Go 4
+Go parallel 2
+Javascript 7,0001
+Python 180
+12 13 # end 14

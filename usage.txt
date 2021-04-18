@@ -1,6 +1,8 @@
 Usage:
   bars [options] [file]
 
+!!! The following is obsolete !!!
+
 OPTIONS
   -a            generate HTML snippet
   -b            HTML output format, "t" using text chars (default) or "h" html css bars
