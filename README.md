@@ -1,8 +1,8 @@
 # bars
 
-**A CLI tool to generate bar charts in the terminal (or later as an HTML snippet).**
+**A CLI tool to generate bar charts in the terminal (or as an HTML snippet [WIP]).**
 
-bars follows the Unix philosophy:
+**bars** follows the Unix philosophy:
 > Write programs that do one thing and do it well. 
 > Write programs to work together. 
 > Write programs to handle text streams, because that is a universal interface.
@@ -45,4 +45,4 @@ There are parameters to accept units in the values,
 use a comma instead of a dot as a decimal sepeaator 
 and more. 
 
-See [more examples](examples/example.md). 
+**See here for [more examples](examples/example.md).** 

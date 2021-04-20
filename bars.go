@@ -38,14 +38,14 @@ type parameters struct {
 	//	htmlOutput  *bool   // ... generate html output
 	//	htmlFormat  *rune   // ... "t" using text chars (default) or "h" html css bars
 	//  style (HTML, colorful, plain)
-	comma       *bool   // use comma as decimal separator
-	decimals    *int    // number of positions after decimal point for display of percentage. Default 0
+	comma    *bool // use comma as decimal separator
+	decimals *int  // number of positions after decimal point for display of percentage. Default 0
 	//  labelWidth	*int	// maximum width of the label width
-	//	asciiShort  *bool   // ... if text-label length exceeds limit, "d" replace last three characters with 3 dots "..." or "e" the last char with unicode ellipsis (U+2026)  "…" (default)
+	ascii *bool // ... if text-label length exceeds limit, "d" replace last three characters with 3 dots "..." or "e" the last char with unicode ellipsis (U+2026)  "…" (default)
 	//	format      *string // ...
 	//	help        *bool   // ... print help
 	//	fileName    *string // ... input filename, default stdin
-	comment     *string // lines starting with <t> are ignored as they are comment lines. Default "#". Omitting <t> will define that there are no comments
+	comment *string // lines starting with <t> are ignored as they are comment lines. Default "#". Omitting <t> will define that there are no comments
 	//	outputFile  *string // ... Output filename. Output to stdout is default.
 	//	separator   *string // ...
 	outputWidth *int    // limit text output to n chars. Default 80
@@ -80,12 +80,12 @@ type chartDataType struct {
 var Description = "bars: generate a bar chart in the terminal or as HTML snippet"
 var Copyright = "© 2021 Alexander Kulbartsch"
 var License = "AGPL-3.0-or-later (GNU Affero General Public License 3 or later)"
-var Version = "V0.1.0-beta"
+var Version = "v0.1.1"
 
 var myParam parameters
 var chartData []chartDataType
 var myValues = valuesType{0.0, 0.0, 0, 0, 0, 0, 0,
-						  0, 0, 0.0}
+	0, 0, 0.0}
 
 func initialize() {
 	//myParam.htmlOutput    = flag.Bool("html", false, "generate HTML snippet")
@@ -97,6 +97,7 @@ func initialize() {
 	myParam.verbose = flag.Bool("verbose", false, "print verbose parsing information")
 	myParam.verbose = flag.Bool("v", false, "print verbose parsing information")
 	myParam.valueAtEnd = flag.Bool("atEnd", false, "values are at the end of a line")
+	myParam.ascii = flag.Bool("ascii", false, "use ascii dots instead of UTF8 ellipses")
 	flag.Parse()
 }
 
@@ -163,36 +164,6 @@ func purifyNumber(numberText string, comma bool) string {
 	return re
 }
 
-/*// NumberCharsLength checks string for the number of characters given by numChars and
-// returns the slice values for start and end of the number and the length
-func NumberCharsLength(text string, numChars string, fromRight bool) (start int, end int, leng int) {
-	textLen := len(text)
-	if textLen == 0 {
-		return 0, 0, 0
-	}
-	runes := []rune(text)
-	leng = 0
-	if fromRight {
-		for i := len(runes) - 1; i >= 0; i -= 1 {
-			letter := string(runes[i])
-			if !strings.ContainsAny(letter, numChars) {
-				return i+1, textLen, leng
-			}
-			leng += len(letter)
-		}
-	} else {
-		for i := 0; i < textLen; i += 1 {
-			letter := string(runes[i])
-			if !strings.ContainsAny(letter, numChars) {
-				return 0, i, leng
-			}
-			leng += len(letter)
-		}
-	}
-	// the whole string is a number
-	return 0, textLen, textLen
-}*/
-
 // SplitLabelNumber separates the label from the value
 func SplitLabelNumber(text string, numChars string, fromRight bool, comma bool) (label string, valueText string, value float64, err error) {
 	if len(text) == 0 || len(numChars) == 0 {
@@ -201,7 +172,7 @@ func SplitLabelNumber(text string, numChars string, fromRight bool, comma bool) 
 	runes := []rune(text)
 	l := len(runes)
 	var r rune
-	var nt string // number text
+	var nt string  // number text
 	var lbl string // label
 	isnum := true
 	for i := 0; i < l; i += 1 {
@@ -222,7 +193,7 @@ func SplitLabelNumber(text string, numChars string, fromRight bool, comma bool) 
 				isnum = false
 			}
 		}
-		if ! isnum {
+		if !isnum {
 			if fromRight {
 				lbl = sr + lbl
 			} else {
@@ -317,30 +288,6 @@ func parseInput() {
 	}
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
-	}
-
-}
-
-//
-func calculateFormat() {
-	myValues.labelLen = myValues.labelMaxLen
-	myValues.chartLen = *myParam.outputWidth - 2 - myValues.labelLen - myValues.valueTxtLen
-	myValues.oneVal = myValues.valueMax / float64(myValues.chartLen)
-	if *myParam.verbose {
-		log.Println("max label length    : " + strconv.Itoa(myValues.labelLen))
-		log.Println("max value length    : " + strconv.Itoa(myValues.valueTxtLen))
-		log.Println("one bar char length : " + strconv.FormatFloat(myValues.oneVal, 'G', -1, 32))
-	}
-}
-
-//
-func displayBars() {
-	for _, pair := range chartData {
-		ll := utf8.RuneCountInString(pair.label)
-		vl := utf8.RuneCountInString(pair.valueText)
-		println(pair.label + strings.Repeat(" ", myValues.labelLen-ll+1) +
-			strings.Repeat(" ", myValues.valueTxtLen-vl) + pair.valueText + " " +
-			strings.Repeat("#", int(pair.value/myValues.oneVal)))
 	}
 }
 
