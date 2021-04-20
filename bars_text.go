@@ -1,7 +1,6 @@
 // bars: generate a bar chart in the terminal or as HTML snippet
 // Copyright © 2021 Alexander Kulbartsch
 // License: AGPL-3.0-or-later (GNU Affero General Public License 3 or later)
-// Version: v0.1.0-beta
 
 /*
     This file is part of bars.
@@ -23,6 +22,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 	"strings"
@@ -93,7 +93,7 @@ func displayBars() {
 			label = pair.label
 		}
 		ll = utf8.RuneCountInString(label)
-		println(label + strings.Repeat(" ", myValues.labelLen-ll+1) +
+		fmt.Println(label + strings.Repeat(" ", myValues.labelLen-ll+1) +
 			strings.Repeat(" ", myValues.valueTxtLen-vl) + pair.valueText + " " +
 			strings.Repeat("#", int(pair.value/myValues.oneVal)))
 	}

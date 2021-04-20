@@ -1,7 +1,6 @@
 // bars: generate a bar chart in the terminal or as HTML snippet
 // Copyright © 2021 Alexander Kulbartsch
 // License: AGPL-3.0-or-later (GNU Affero General Public License 3 or later)
-// Version: v0.1.0-beta
 
 /*
     This file is part of bars.
@@ -25,37 +24,22 @@ package main
 import (
 	"bufio"
 	"flag"
-	"fmt"
 	"io"
 	"log"
 	"os"
-	"strconv"
 	"strings"
-	"unicode/utf8"
 )
 
 type parameters struct {
-	//	htmlOutput  *bool   // ... generate html output
-	//	htmlFormat  *rune   // ... "t" using text chars (default) or "h" html css bars
-	//  style (HTML, colorful, plain)
-	comma    *bool // use comma as decimal separator
-	decimals *int  // number of positions after decimal point for display of percentage. Default 0
-	//  labelWidth	*int	// maximum width of the label width
-	ascii *bool // ... if text-label length exceeds limit, "d" replace last three characters with 3 dots "..." or "e" the last char with unicode ellipsis (U+2026)  "…" (default)
-	//	format      *string // ...
-	//	help        *bool   // ... print help
-	//	fileName    *string // ... input filename, default stdin
-	comment *string // lines starting with <t> are ignored as they are comment lines. Default "#". Omitting <t> will define that there are no comments
-	//	outputFile  *string // ... Output filename. Output to stdout is default.
-	//	separator   *string // ...
-	outputWidth *int    // limit text output to n chars. Default 80
-	verbose     *bool   // verbose mode, default false
-	valueAtEnd  *bool   // Values at the end, default at the beginning (false)
-	AddNumChars *string // additional number characters
-	// sort
-	// print a sum
-	// labelCaption
-	// valueCaption
+	comma         *bool   // use comma as decimal separator
+	decimals      *int    // number of positions after decimal point for display of percentage. Default 0
+	ascii         *bool   // ... if text-label length exceeds limit, "d" replace last three characters with 3 dots "..." or "e" the last char with unicode ellipsis (U+2026)  "…" (default)
+	comment       *string // lines starting with <t> are ignored as they are comment lines. Default "#". Omitting <t> will define that there are no comments
+	outputWidth   *int    // limit text output to n chars. Default 80
+	verbose       *bool   // verbose mode, default false
+	valueAtEnd    *bool   // Values at the end, default at the beginning (false)
+	AddNumChars   *string // additional number characters
+	about         *bool   // write info about this program
 }
 
 type valuesType struct {
@@ -78,9 +62,10 @@ type chartDataType struct {
 }
 
 var Description = "bars: generate a bar chart in the terminal or as HTML snippet"
-var Copyright = "© 2021 Alexander Kulbartsch"
-var License = "AGPL-3.0-or-later (GNU Affero General Public License 3 or later)"
-var Version = "v0.1.1"
+var Copyright = "Copyright © 2021 Alexander Kulbartsch"
+var License = "License: AGPL-3.0-or-later (GNU Affero General Public License 3 or later)"
+var Version = "Version: v0.2.0"
+var Source  = "Source: https://github.com/Kulbartsch/bars"
 
 var myParam parameters
 var chartData []chartDataType
@@ -98,112 +83,20 @@ func initialize() {
 	myParam.verbose = flag.Bool("v", false, "print verbose parsing information")
 	myParam.valueAtEnd = flag.Bool("atEnd", false, "values are at the end of a line")
 	myParam.ascii = flag.Bool("ascii", false, "use ascii dots instead of UTF8 ellipses")
+	myParam.about = flag.Bool("about", false, "display information about this program")
 	flag.Parse()
 }
 
 func validateParameters() {
 
-	// -s<t>    separator definition or alternative string
-
-	// -f       Output format for text. Default "tsvsb"="text, space, value, space, char-bar-chart",
-	//          possible format options are:
-	//	        * b    character based bar
-	//	        * B    inverted bar without values
-	//			* c    Comma
-	//			* e    semicolon
-	//			* i    pipe
-	//       	* l    label
-	//			* o    colon
-	//	        * p    percent = value in percent
-	//	        * P    inverted bar with containing percentage
-	//			* s    space
-	//			* t    tab
-	//	        * v    value = the given value
-	//	        * V    inverted bar with containing value
-	//			* 1-9  any self defined
-
 }
 
-// WhiteSpaceTrim trims space, tabs and new lines
-func WhiteSpaceTrim(in string) string {
-	return strings.Trim(in, " \t\n")
-}
-
-// RemoveInvalidChars from text checking against set of valid chars
-func RemoveInvalidChars(text, valid string) string {
-	textLen := len(text)
-	validLen := len(valid)
-	if textLen == 0 {
-		return text
-	}
-	if validLen == 0 {
-		return ""
-	}
-	var result string
-	for _, l := range text {
-		letter := string(l)
-		if strings.ContainsAny(letter, valid) {
-			result = result + letter
-		}
-	}
-	return result
-}
-
-//
-func purifyNumber(numberText string, comma bool) string {
-	var numberChars string
-	if comma {
-		numberChars = "0123456789+-,E"
-	} else {
-		numberChars = "0123456789+-.E"
-	}
-	re := RemoveInvalidChars(numberText, numberChars)
-	if comma {
-		re = strings.ReplaceAll(re, ",", ".")
-	}
-	return re
-}
-
-// SplitLabelNumber separates the label from the value
-func SplitLabelNumber(text string, numChars string, fromRight bool, comma bool) (label string, valueText string, value float64, err error) {
-	if len(text) == 0 || len(numChars) == 0 {
-		return text, "", 0, nil
-	}
-	runes := []rune(text)
-	l := len(runes)
-	var r rune
-	var nt string  // number text
-	var lbl string // label
-	isnum := true
-	for i := 0; i < l; i += 1 {
-		if fromRight {
-			r = runes[l-i-1]
-		} else {
-			r = runes[i]
-		}
-		sr := string(r)
-		if isnum {
-			if strings.ContainsAny(sr, numChars) {
-				if fromRight {
-					nt = sr + nt
-				} else {
-					nt = nt + sr
-				}
-			} else { // no number char
-				isnum = false
-			}
-		}
-		if !isnum {
-			if fromRight {
-				lbl = sr + lbl
-			} else {
-				lbl = lbl + sr
-			}
-		}
-	}
-	nv, err := strconv.ParseFloat(purifyNumber(nt, comma), 64)
-	return WhiteSpaceTrim(lbl), nt, nv, err
-
+func about() {
+	println(Description)
+	println(Version)
+	println(Copyright)
+	println(License)
+	println(Source)
 }
 
 func openStdinOrFile() io.Reader {
@@ -218,57 +111,6 @@ func openStdinOrFile() io.Reader {
 		r = os.Stdin
 	}
 	return r
-}
-
-func parseLine(text string) {
-	numberChars := "0123456789+-.,E" + *myParam.AddNumChars
-	// numStart, numEnd, numCount := NumberCharsLength(text, numberChars, *myParam.valueAtEnd)
-	label, valTxt, value, err := SplitLabelNumber(text, numberChars, *myParam.valueAtEnd, *myParam.comma)
-	if len(valTxt) == 0 {
-		if *myParam.verbose {
-			log.Println("Line " + strconv.Itoa(myValues.lines) + " has no valid number.")
-		}
-		return
-	}
-	if err != nil {
-		if *myParam.verbose {
-			log.Println("Line " + strconv.Itoa(myValues.lines) + " Parse error:")
-			log.Println(err)
-		}
-		return
-	}
-	valueText := fmt.Sprintf("%."+strconv.Itoa(*myParam.decimals)+"f", value)
-	valTxtLen := len(valueText)
-	// ...
-	labelLength := utf8.RuneCountInString(label)
-	if *myParam.verbose {
-		log.Println("label: \"" + label + "\" value: " + strconv.FormatFloat(value, 'G', -1, 64))
-	}
-	chartData = append(chartData, chartDataType{value, valueText, label})
-	myValues.linesValid += 1
-	if myValues.linesValid == 1 {
-		myValues.labelMaxLen = labelLength
-		myValues.labelMinLen = labelLength
-		myValues.valueMax = value
-		myValues.valueMin = value
-		myValues.valueTxtLen = valTxtLen
-	} else {
-		if myValues.labelMaxLen < labelLength {
-			myValues.labelMaxLen = labelLength
-		}
-		if myValues.labelMinLen > labelLength {
-			myValues.labelMinLen = labelLength
-		}
-		if myValues.valueMax < value {
-			myValues.valueMax = value
-		}
-		if myValues.valueMin > value {
-			myValues.valueMin = value
-		}
-		if myValues.valueTxtLen < valTxtLen {
-			myValues.valueTxtLen = valTxtLen
-		}
-	}
 }
 
 func parseInput() {
@@ -295,6 +137,9 @@ func parseInput() {
 func main() {
 	initialize()
 	validateParameters()
+	if *myParam.about {
+		about()
+	}
 	parseInput()
 	calculateFormat()
 	displayBars()

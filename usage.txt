@@ -39,3 +39,24 @@ OPTIONS
 	-t<n>       limit text output to n chars. Default 80% of width
 	-v          verbose mode, default false
 	-z          values are at the end of the input file, default at the beginning
+
+## Validating
+
+	// -s<t>    separator definition or alternative string
+
+	// -f       Output format for text. Default "tsvsb"="text, space, value, space, char-bar-chart",
+	//          possible format options are:
+	//	        * b    character based bar
+	//	        * B    inverted bar without values
+	//			* c    Comma
+	//			* e    semicolon
+	//			* i    pipe
+	//       	* l    label
+	//			* o    colon
+	//	        * p    percent = value in percent
+	//	        * P    inverted bar with containing percentage
+	//			* s    space
+	//			* t    tab
+	//	        * v    value = the given value
+	//	        * V    inverted bar with containing value
+	//			* 1-9  any self defined
