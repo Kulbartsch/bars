@@ -4,13 +4,12 @@ Don't take this list for granted.
 Some ideas might not be implemented, 
 just what I (or you) like/want/need.
 
-* [ ] Documentation
+* [X] Documentation
   * [ ] better online help (-help)
-  * [ ] license information (-about)
-  * [ ] examples (COVID)
+  * [X] license information (-about)
+  * [ ] more examples (COVID)
 * [ ] Output format definition
 * [ ] maximum width of the label width
-* [ ] self defined separator
 * [ ] self defined column separator
 * [ ] HTML snippet output to integrate in a website (html)
   * [ ] inbound css (html)
@@ -26,16 +25,18 @@ just what I (or you) like/want/need.
 * [ ] header line with texts for table for label, unit4number, bar description
 * [ ] autodetect if numbers are on the right or left of the text 
 * [ ] header line separator (text)
-* [ ] sort input
 * [ ] print a sum
+* [ ] define bar chart length, might be nice to define 100% etc. (text)
 * [ ] Output filename, Output to stdout is default.
-* [ ] unix tool scripts for use with bars
+* [x] unix tool scripts for use with bars
   * [ ] du
   * [ ] df
   * [ ] top processes (CPU, Mem, IO)
   * [ ] web server logfile analyzer
   * [ ] covid19 scanner
   * [ ] system load
+* [ ] process two numbers per row for stacked or mixed charts 
+* [ ] sort input
 
 Elements marked with (text) are for text output only.
 Elements marked with (html) are for HTML output only.

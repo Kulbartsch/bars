@@ -36,7 +36,7 @@ Displaying the disk usage as bars:
 Each input line is split up into an _value_ and _label_ part. 
 By default, the output is _label_, _value_ and _bars_:
 
-    $  du -b * | ../bars                                                                                                                                             127 ↵
+    $  du -b * | ../bars
     bill.txt         60 ###############
     performance.txt 237 ############################################################
     temperatur.txt  115 #############################

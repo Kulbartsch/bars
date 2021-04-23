@@ -9,7 +9,7 @@ Example, display disk usage of this test files as bars:
     237     performance.txt
     115     temperatur.txt
     
-    $  du -b * | bars                                                                                                                                             127 ↵
+    $  du -b * | bars
     bill.txt         60 ###############
     performance.txt 237 ############################################################
     temperatur.txt  115 #############################
@@ -57,7 +57,7 @@ The File:
 
 The Command: 
 
-    ./bars -comma -addNumChars=°C -decimals=1 -atEnd examples/temperatur.txt
+    bars -comma -addNumChars=°C -decimals=1 -atEnd examples/temperatur.txt
 
 Result:
 
@@ -71,7 +71,7 @@ Result:
 
 ## Visualize your disk usage 
 
-    df -x squashfs -x tmpfs | awk '{print $5 " " $6} END{print "100% 100%"}' | ./bars -addNumChars=% 
+    df -x squashfs -x tmpfs | awk '{print $5 " " $6} END{print "100% 100%"}' | bars -addNumChars=% 
 
 This command may result in something like: 
 
