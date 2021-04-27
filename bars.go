@@ -68,7 +68,7 @@ type chartDataType struct {
 var Description = "bars: generate a bar chart in the terminal or as HTML snippet"
 var Copyright = "Copyright © 2021 Alexander Kulbartsch"
 var License = "License: AGPL-3.0-or-later (GNU Affero General Public License 3 or later)"
-var Version = "Version: v0.3.0"
+var Version = "Version: v0.4.0"
 var Source  = "Source: https://github.com/Kulbartsch/bars"
 
 var myParam parameters
