@@ -114,7 +114,7 @@ func SplitLabelNumber(text string, numChars string, fromRight bool, comma bool) 
 
 
 func parseLine(text string) {
-	numberChars := "0123456789+-.,E" + *myParam.AddNumChars
+	numberChars := "0123456789+-.,E" + *myParam.addNumChars
 	// numStart, numEnd, numCount := NumberCharsLength(text, numberChars, *myParam.valueAtEnd)
 	label, valTxt, value, err := SplitLabelNumber(text, numberChars, *myParam.valueAtEnd, *myParam.comma)
 	if len(valTxt) == 0 {

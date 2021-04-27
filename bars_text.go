@@ -29,7 +29,7 @@ import (
 	"unicode/utf8"
 )
 
-//
+
 func calculateFormat() {
 	// calculate width of separators
 	separatorsWidth := 2
@@ -53,17 +53,25 @@ func calculateFormat() {
 	spread := myValues.valueMax
 	if myValues.valueMin < 0 {
 		spread = myValues.valueMax - myValues.valueMin
+		myValues.oneVal = spread / float64(myValues.chartLen - 1)
+		myValues.chartNLen = int(-myValues.valueMin/myValues.oneVal)
+		myValues.chartPLen = myValues.chartLen - myValues.chartNLen - 1
+	} else { // Only positive values
+	  	myValues.oneVal = spread / float64(myValues.chartLen)
+	  	myValues.chartNLen = 0
+	  	myValues.chartPLen = myValues.chartLen
 	}
-	myValues.oneVal = spread / float64(myValues.chartLen)
 	if *myParam.verbose {
 		log.Println("max label length    : " + strconv.Itoa(myValues.labelLen))
 		log.Println("max value length    : " + strconv.Itoa(myValues.valueTxtLen))
 		log.Println("chart length        : " + strconv.Itoa(myValues.chartLen))
+		log.Println("... negative part   : " + strconv.Itoa(myValues.chartNLen))
+		log.Println("... positive part   : " + strconv.Itoa(myValues.chartPLen))
 		log.Println("one bar char length : " + strconv.FormatFloat(myValues.oneVal, 'G', -1, 32))
 	}
 }
 
-//
+
 func displayBars() {
 	var n int
 	var label string
@@ -71,6 +79,7 @@ func displayBars() {
 		ll := utf8.RuneCountInString(pair.label)
 		vl := utf8.RuneCountInString(pair.valueText)
 		label = ""
+		// shorten label if necessary
 		if ll > myValues.labelLen {
 			if *myParam.ascii {
 				n = myValues.labelLen - 3
@@ -93,9 +102,22 @@ func displayBars() {
 			label = pair.label
 		}
 		ll = utf8.RuneCountInString(label)
-		fmt.Println(label + strings.Repeat(" ", myValues.labelLen-ll+1) +
-			strings.Repeat(" ", myValues.valueTxtLen-vl) + pair.valueText + " " +
-			strings.Repeat("#", int(pair.value/myValues.oneVal)))
+		fmt.Print(label + strings.Repeat(" ", myValues.labelLen-ll+1) +
+			strings.Repeat(" ", myValues.valueTxtLen-vl) + pair.valueText + " ")
+		if myValues.valueMin < 0 {
+			if pair.value < 0 {
+				fmt.Print(strings.Repeat(" ", myValues.chartNLen + int(pair.value / myValues.oneVal)) +
+					strings.Repeat("#",int(-pair.value/myValues.oneVal)))
+			} else {
+				fmt.Print(strings.Repeat(" ", myValues.chartNLen))
+			}
+			fmt.Print(*myParam.zero)
+		}
+		if pair.value > 0 {
+			fmt.Println(strings.Repeat("#", int(pair.value/myValues.oneVal)))
+		} else {
+			fmt.Println("")
+		}
 	}
 }
 

@@ -49,24 +49,27 @@ We want to keep the two decimals in the output.
 The File: 
 
     Berlin      6,1°C
-    Dresden     4,8°C
-    Düsseldorf  7,5°C
+    Dresden    -4,8°C
+    Düsseldorf +7,5°C
     Hamburg     6,0°C
-    München    +4,2°C
-    Stuttgart   0,5°C
+    München     0,0°C
+    Stuttgart  -0,5°C
 
 The Command: 
 
-    bars -comma -addNumChars=°C -decimals=1 -atEnd examples/temperatur.txt
+    bars -decimals 2 --comma -addNumChars=°C --atEnd --zero="|" examples/temperatur.txt 
 
-Result:
+You can use one or two dashes for a parameter. 
 
-    Berlin     6.1 ####################################################
-    Dresden    4.8 #########################################
-    Düsseldorf 7.5 #################################################################
-    Hamburg    6.0 ####################################################
-    München    4.2 ####################################
-    Stuttgard  0.5 ####
+The Result:
+
+    Berlin      6.10                         |##############################
+    Dresden    -4.80 ########################|
+    Düsseldorf  7.50                         |#####################################
+    Hamburg     6.00                         |##############################
+    München     0.00                         |
+    Stuttgart  -0.50                       ##|
+
 
 
 ## Visualize your disk usage 
