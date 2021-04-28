@@ -150,11 +150,50 @@ func TextToLen(text string, length int, filler rune, alignRight bool, exceedMark
 	return FillText(result, length, fill, alignRight)
 }
 
+func AnsiText(text string, format string) string {
+	var f string
+	if len(text) == 0 || len(format) == 0 {
+		return text
+	}
+	switch format {
+	case "bold":
+		f = "1"
+	case "underline":
+		f = "4"
+	case "header":
+		f = "4;37" // underline, lightgrey
+	case "lgreen", "value":
+		f = "92"
+	case "lblue", "label":
+		f = "94"
+	case "lmagenta", "positive":
+		f = "95"
+	case "lcyan", "negative":
+		f = "96"
+	case "zero":
+		f = "39"
+	default:
+		f = format
+	}
+	return "\x1B[" + f + "m" + text + "\x1B[0m"
+}
+
+func colorize(text string, format string) string {
+	if myValues.mode == "color" {
+		return AnsiText(text, format)
+	}
+	return text
+}
 
 func displayTextBarsHeader(exceedMark string) {
 	if ! myValues.headers {
 		return
 	}
+	if myValues.mode == "color" {
+		fmt.Print(AnsiText(TextToLen(*myParam.labelHeader, myValues.labelLen, ' ', false, exceedMark, false, mySymbols.errors),"underline") + " ")
+		fmt.Print(AnsiText(TextToLen(*myParam.valueHeader, myValues.valueTxtLen, ' ', true, exceedMark, false, mySymbols.errors),"underline") + " ")
+		fmt.Println(AnsiText(TextToLen(*myParam.chartHeader, myValues.chartLen, ' ', false, exceedMark, false, mySymbols.errors),"header"))
+	} else {
 	fmt.Print(TextToLen(*myParam.labelHeader, myValues.labelLen, mySymbols.headerFiller, false, exceedMark, false, mySymbols.errors) + " ")
 	fmt.Print(TextToLen(*myParam.valueHeader, myValues.valueTxtLen, mySymbols.headerFiller, true, exceedMark, false, mySymbols.errors) + " ")
 	fmt.Println(TextToLen(*myParam.chartHeader, myValues.chartLen, mySymbols.headerFiller, false, exceedMark, false, mySymbols.errors))
@@ -164,30 +203,34 @@ func displayTextBarsHeader(exceedMark string) {
 		fmt.Print(TextToLen("", myValues.valueTxtLen, filler, false, exceedMark, false, mySymbols.errors) + " ")
 		fmt.Println(TextToLen("", myValues.chartLen, filler, false, exceedMark, false, mySymbols.errors))
 	}
+	}
 }
 
 
 func displayTextBars() {
-	var label string
+	//var label string
 	displayTextBarsHeader(mySymbols.exceedMark)
 	for _, pair := range chartData {
-		ll := utf8.RuneCountInString(pair.label)
-		vl := utf8.RuneCountInString(pair.valueText)
-		label = TextToLen(pair.label, myValues.labelLen, ' ', false, mySymbols.exceedMark, false, '#')
-		ll = utf8.RuneCountInString(label)
-		fmt.Print(label + strings.Repeat(" ", myValues.labelLen-ll+1) +
-			strings.Repeat(" ", myValues.valueTxtLen-vl) + pair.valueText + " ")
+		//ll := utf8.RuneCountInString(pair.label)
+		//vl := utf8.RuneCountInString(pair.valueText)
+		label := TextToLen(pair.label, myValues.labelLen, ' ', false, mySymbols.exceedMark, false, mySymbols.errors)
+		value := TextToLen(pair.valueText, myValues.valueTxtLen, ' ', true, mySymbols.exceedMark, false, mySymbols.errors)
+		//ll = utf8.RuneCountInString(label)
+		//fmt.Print(label + strings.Repeat(" ", myValues.labelLen-ll+1) +
+		//	strings.Repeat(" ", myValues.valueTxtLen-vl) + pair.valueText + " ")
+		fmt.Print(colorize(label,"label") + " ")
+		fmt.Print(colorize(value,"value") + " ")
 		if myValues.valueMin < 0 {
 			if pair.value < 0 {
 				fmt.Print(strings.Repeat(" ", myValues.chartNLen + int(pair.value / myValues.oneVal)) +
-					strings.Repeat(string(mySymbols.bar),int(-pair.value/myValues.oneVal)))
+					colorize(strings.Repeat(string(mySymbols.bar),int(-pair.value/myValues.oneVal)),"negative"))
 			} else {
 				fmt.Print(strings.Repeat(" ", myValues.chartNLen))
 			}
-			fmt.Print(string(mySymbols.zero))
+			fmt.Print(colorize(string(mySymbols.zero), "zero"))
 		}
 		if pair.value > 0 {
-			fmt.Println(strings.Repeat(string(mySymbols.bar), int(pair.value/myValues.oneVal)))
+			fmt.Println(colorize(strings.Repeat(string(mySymbols.bar), int(pair.value/myValues.oneVal)),"positive"))
 		} else {
 			fmt.Println("")
 		}

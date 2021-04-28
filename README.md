@@ -14,15 +14,11 @@ Features:
 * [X] Accept units as part of the value like ``12.90$``
 * [X] Alternatively accept a comma as a decimal separator
 * [X] Define the number of decimals to display 
-
-I just started this tool. The basic version is working, 
-but there will be more features:
-
+* [X] Colored terminal output
 * [ ] HTML snippet output to integrate in a website
-* [ ] Colored terminal output
 
-... and more \
-Checkout the [ideas](ideas.md).\
+... and more to come.\
+Checkout the detailed [features](features.md) page.\
 So stay tuned!
 
 ## Example 

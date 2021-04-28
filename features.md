@@ -1,45 +1,53 @@
-## Ideas implemented
+## Features implemented
 
-* [X] Handles UTF8 characters
-* [X] Values can be on the left or right side
-* [X] Accept units as part of the value like ``12.90$``
-* [X] Alternatively accept a comma as a decimal separator
-* [X] Define the number of decimals to display
-* [X] Documentation
-  * [X] license information (-about)## Ideas to implement
-* [X] handle negative numbers
-  * [X] choose the 0 axis separator (-zero=t) (text)
-* [X] header line with texts for label, value and chart
-* [X] header line separator (text)
+* [X] Display labels, values and character charts - obviously. ;)
+* [X] Handle UTF8 characters.
+* [X] Values can be on the left or right side. Parse right with `-atEnd`.
+* [X] Accept units and separators as part of the value like `12.90$;` with `-addNumChars="$;"`.
+* [X] Alternatively accept a comma as a decimal separator `-comma`.
+* [X] Define the number of decimals to display `-decimals=<n>`.
+* [X] Display license information with `-about`.
+* [X] Handle negative numbers.
+* [X] Choose the 0 axis separator with `-zero=<t>`. (text)
+* [X] Label will be shortened if there are not at least seven characters for the bar. (text)
+* [X] Header line with texts for label `-labelHeader=<t>`, value `-valueHeader=<t>` and chart `-chartHeader=<t>`.
+* [X] Header line separator/ruler, can be deactivated with `--noHR`. (text)
+* [X] Nice UTF8 symbol support for output, can be deactivated with `-ascii`. (text)
+* [X] Colored terminal output, `-mode=color` is default. Does only work on ANSI/VT100 compatible terminals. For the plain monochrome text output use `-mode=plain`. (text)
 
-## Ideas 
+Elements marked with (text) are for text output only. \
+Elements marked with (html) are for HTML output only.
+
+
+## Ideas to implement
 
 Don't take this list for granted. 
 Some ideas might not be implemented, 
 just what I (or you) like/want/need.
 
-* [X] Documentation
+* Documentation
   * [ ] better online help (-help)
   * [ ] more examples (COVID)
 * [ ] maximum width of the label
-* [ ] HTML snippet output to integrate in a website (html)
-  * [ ] output CSS template (html)
+* [ ] HTML snippet output for integration in a website `-mode=html`. (html)
+  * [ ] Output CSS template with `-mode=css`. Does not parse anything. (html)
   * [ ] full HTML page with title / subtitle (html)  
-* [ ] Colored terminal output (text)
-  * [ ] dynamic terminal width detection
+* [ ] Dynamic terminal width detection
 * [ ] print a sum
 * [ ] print a average
 * [ ] print a count
 * [ ] define bar chart length, might be nice to define 100% etc. (text)
-* [ ] define a maximum value bar length, if exceeded display >
-* [ ] define a minimum value bar length, if below display <
-* [x] unix tool scripts for use with bars
+* [ ] define a maximum value bar length, if exceeded display `>` (text)
+* [ ] define a minimum value bar length, if below display `<` (text)
+* [ ] inverted bars, containing the value, problem might be negative numbers (text)
+* unix tool scripts for use with bars
   * [ ] du
   * [ ] df
   * [ ] top processes (CPU, Mem, IO)
   * [ ] web server logfile analyzer
   * [ ] covid19 scanner
-  * [ ] system load
+  * [ ] system load (needs definition of chart length)
+
 
 ### Ideas which are unlikely to be implemented 
 
@@ -53,11 +61,10 @@ just what I (or you) like/want/need.
 * [x] Colored terminal output (text)
   * [ ] coloring bars from green to red or other way round *- To die in beauty. ;)*
   * [ ] choose coloring
-* [ ] process two numbers per row for stacked or mixed charts *- Maybe this is overkill?*
+* [ ] process two numbers per row for stacked charts *- Maybe this is overkill?*
+  * [ ] ... for mixed charts
 * [ ] sort input *- there are other tools for this*
 
-Elements marked with (text) are for text output only. \
-Elements marked with (html) are for HTML output only.
 
 ## Resources
 
