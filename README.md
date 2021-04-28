@@ -20,8 +20,9 @@ but there will be more features:
 
 * [ ] HTML snippet output to integrate in a website
 * [ ] Colored terminal output
-* [ ] and more ...
 
+... and more \
+Checkout the [ideas](ideas.md).\
 So stay tuned!
 
 ## Example 
@@ -36,13 +37,13 @@ Displaying the disk usage as bars:
 Each input line is split up into an _value_ and _label_ part. 
 By default, the output is _label_, _value_ and _bars_:
 
-    $  du -b * | ../bars
+    $  du -b * | ../bars --ascii
     bill.txt         60 ###############
     performance.txt 237 ############################################################
     temperatur.txt  115 #############################
 
 There are parameters to accept units in the values, 
-use a comma instead of a dot as a decimal sepeaator 
+use a comma instead of a dot as a decimal separator 
 and more. 
 
 **See here for [more examples](examples/example.md).** 

@@ -1,5 +1,6 @@
 # bars Examples
 
+> The output of the examples are slightly outdated due to the usage of UTF8 symbols. This plain ascii output now requires the `-ascii` parameter.
 ## Disk usage  
 
 Example, display disk usage of this test files as bars:
@@ -57,31 +58,34 @@ The File:
 
 The Command: 
 
-    bars -decimals 2 --comma -addNumChars=°C --atEnd --zero="|" examples/temperatur.txt 
+    bars -decimals 2 --comma -addNumChars=°C --atEnd -outputWidth=100 -labelHeader=City -valueHeader="°C" -chartHeader="temperature in degree celsius" -noHR examples/temperatur.txt
 
 You can use one or two dashes for a parameter. 
 
 The Result:
 
-    Berlin      6.10                         |##############################
-    Dresden    -4.80 ########################|
-    Düsseldorf  7.50                         |#####################################
-    Hamburg     6.00                         |##############################
-    München     0.00                         |
-    Stuttgart  -0.50                       ##|
+    City______ ___°C temperature in degree celsius______________________________________________________
+    Berlin      6.10                                │████████████████████████████████████████
+    Dresden    -4.80 ███████████████████████████████│
+    Düsseldorf  7.50                                │█████████████████████████████████████████████████
+    Hamburg     6.00                                │███████████████████████████████████████
+    München     0.00                                │
+    Stuttgart  -0.50                             ███│
 
 
 
 ## Visualize your disk usage 
 
-    df -x squashfs -x tmpfs | awk '{print $5 " " $6} END{print "100% 100%"}' | bars -addNumChars=% 
+    df -x squashfs -x tmpfs | awk '{print $5 " " $6} END{print "100% 100%"}' | bars -ascii -addNumChars=% -labelHeader=mount -valueHeader=% -chartHeader=usage
 
-This command may result in something like: 
+This command may result in something like:
 
-    /                     35 ###############
+    mount                  % usage
+    -------------------- --- -------------------------------------------
+    /                     36 ###############
     /boot/efi              1
     /run/media/me/media   63 ###########################
-    /run/media/me/backup  72 ##############################
+    /run/media/me/backup  73 ###############################
     /run/media/me/data    13 #####
     100%                 100 ###########################################
 

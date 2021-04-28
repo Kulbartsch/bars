@@ -1,7 +1,11 @@
 # Releases
 ## Version - Released / Features
 
-### v0.4.0 - 2021-04-23
+### v0.5.0 - 2021-04-28
+- headers and header separator 
+- option to choose an output module
+- cleaned up the ideas
+### v0.4.0 - 2021-04-27
 - handle negative numbers
 ### v0.3.0 - 2021-04-27
 - updated examples, readme and ideas

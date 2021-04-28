@@ -29,6 +29,17 @@ import (
 	"unicode/utf8"
 )
 
+type symbolType struct {
+	headerFiller rune
+	errors       rune
+	ruler        rune
+	zero         rune
+	bar          rune
+	exceedMark   string
+}
+
+var mySymbols symbolType
+
 
 func calculateFormat() {
 	// calculate width of separators
@@ -72,49 +83,111 @@ func calculateFormat() {
 }
 
 
-func displayBars() {
-	var n int
+func FillText(text string, length int, filler rune, alignRight bool) string {
+	var fill rune
+	if  utf8.RuneCountInString(string(filler)) != 1 {
+		fill = ' '
+	} else {
+		fill = filler
+	}
+	ltx := utf8.RuneCountInString(text)
+	if ltx >= length {
+		return text  // return the (to long) text
+	}
+	n := length - ltx
+	if alignRight {
+		return strings.Repeat(string(fill), n) + text
+	}
+	return text + strings.Repeat(string(fill), n)
+}
+
+
+func TextToLen(text string, length int, filler rune, alignRight bool, exceedMark string, exceedLeft bool, errorSymbol rune) string {
+	// pre checks
+	var fill rune
+	if  utf8.RuneCountInString(string(filler)) != 1 {
+		fill = ' '
+	} else {
+		fill = filler
+	}
+	ltx := utf8.RuneCountInString(text)
+	if length == 1 && ltx == 1 {
+		return text
+	}
+	if length < 1 {
+		log.Println("Internal Error: length to short")
+	}
+	lem := utf8.RuneCountInString(exceedMark)
+	if ltx > length && lem > (length+1) {
+		log.Println("Inter<nal Error: exceedMark greater than length")
+		return TextToLen("", length, errorSymbol, false, "", false, errorSymbol)
+	}
+	// shorten text if necessary
+	var result string
+	if ltx > length {
+		n := length - lem
+		for _, x := range text {
+			result = result + string(x)
+			n -= 1
+			if n == 0 {
+				break
+			}
+		}
+		if exceedLeft {
+			result = exceedMark + result
+		} else {
+			result += exceedMark
+		}
+	} else {
+		result = text
+	}
+	lre := utf8.RuneCountInString(result)
+	if lre > length {
+		log.Println("Internal Error: result exceeds required length")
+		return result // return it anyway
+	}
+	// fill up
+	return FillText(result, length, fill, alignRight)
+}
+
+
+func displayTextBarsHeader(exceedMark string) {
+	if ! myValues.headers {
+		return
+	}
+	fmt.Print(TextToLen(*myParam.labelHeader, myValues.labelLen, mySymbols.headerFiller, false, exceedMark, false, mySymbols.errors) + " ")
+	fmt.Print(TextToLen(*myParam.valueHeader, myValues.valueTxtLen, mySymbols.headerFiller, true, exceedMark, false, mySymbols.errors) + " ")
+	fmt.Println(TextToLen(*myParam.chartHeader, myValues.chartLen, mySymbols.headerFiller, false, exceedMark, false, mySymbols.errors))
+	if ! *myParam.noHR {
+		filler := mySymbols.ruler
+		fmt.Print(TextToLen("", myValues.labelLen, filler, false, exceedMark, false, mySymbols.errors) + " ")
+		fmt.Print(TextToLen("", myValues.valueTxtLen, filler, false, exceedMark, false, mySymbols.errors) + " ")
+		fmt.Println(TextToLen("", myValues.chartLen, filler, false, exceedMark, false, mySymbols.errors))
+	}
+}
+
+
+func displayTextBars() {
 	var label string
+	displayTextBarsHeader(mySymbols.exceedMark)
 	for _, pair := range chartData {
 		ll := utf8.RuneCountInString(pair.label)
 		vl := utf8.RuneCountInString(pair.valueText)
-		label = ""
-		// shorten label if necessary
-		if ll > myValues.labelLen {
-			if *myParam.ascii {
-				n = myValues.labelLen - 3
-			} else {
-				n = myValues.labelLen - 1
-			}
-			for _, x := range pair.label {
-				label = label + string(x)
-				n -= 1
-				if n == 0 {
-					break
-				}
-			}
-			if *myParam.ascii {
-				label = label + "..."
-			} else {
-				label = label + "…"
-			}
-		} else {
-			label = pair.label
-		}
+		label = TextToLen(pair.label, myValues.labelLen, ' ', false, mySymbols.exceedMark, false, '#')
 		ll = utf8.RuneCountInString(label)
 		fmt.Print(label + strings.Repeat(" ", myValues.labelLen-ll+1) +
 			strings.Repeat(" ", myValues.valueTxtLen-vl) + pair.valueText + " ")
 		if myValues.valueMin < 0 {
 			if pair.value < 0 {
 				fmt.Print(strings.Repeat(" ", myValues.chartNLen + int(pair.value / myValues.oneVal)) +
-					strings.Repeat("#",int(-pair.value/myValues.oneVal)))
+					strings.Repeat(string(mySymbols.bar),int(-pair.value/myValues.oneVal)))
 			} else {
 				fmt.Print(strings.Repeat(" ", myValues.chartNLen))
 			}
-			fmt.Print(*myParam.zero)
+			fmt.Print(string(mySymbols.zero))
 		}
 		if pair.value > 0 {
-			fmt.Println(strings.Repeat("#", int(pair.value/myValues.oneVal)))
+			fmt.Println(strings.Repeat(string(mySymbols.bar), int(pair.value/myValues.oneVal)))
 		} else {
 			fmt.Println("")
 		}
