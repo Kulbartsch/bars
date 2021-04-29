@@ -178,6 +178,7 @@ func AnsiText(text string, format string) string {
 	return "\x1B[" + f + "m" + text + "\x1B[0m"
 }
 
+
 func colorize(text string, format string) string {
 	if myValues.mode == "color" {
 		return AnsiText(text, format)

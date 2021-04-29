@@ -2,5 +2,5 @@ Berlin      6,1°C
 Dresden    -4,8°C
 Düsseldorf +7,5°C
 Hamburg     6,0°C
-München     0,0°C
+München 🌧   0,0°C
 Stuttgart  -0,5°C

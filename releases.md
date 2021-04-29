@@ -2,9 +2,9 @@
 ## Version - Released / Features
 
 ### v0.6.0 - 2021-04-28
-- colored output (now default) 
+- colored output (new default) 
 ### v0.5.0 - 2021-04-28
-- headers and header separator 
+- headers and header separator (ruler)
 - option to choose an output module
 - cleaned up the ideas
 ### v0.4.0 - 2021-04-27

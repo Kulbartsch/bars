@@ -15,7 +15,7 @@ Features:
 * [X] Alternatively accept a comma as a decimal separator
 * [X] Define the number of decimals to display 
 * [X] Colored terminal output
-* [ ] HTML snippet output to integrate in a website
+* [ ] HTML snippet output to integrate in a website [WIP]
 
 ... and more to come.\
 Checkout the detailed [features](features.md) page.\

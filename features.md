@@ -47,12 +47,16 @@ just what I (or you) like/want/need.
   * [ ] web server logfile analyzer
   * [ ] covid19 scanner
   * [ ] system load (needs definition of chart length)
+* [ ] process two numbers per row for stacked charts like  *- Maybe this is overkill?*
+  * [ ] ... for mixed charts 
 
 
 ### Ideas which are unlikely to be implemented 
 
+* [ ] Use individual separator, i.e. a semicolon to use the output as a CSV file. (text)
 * [ ] Output format definition *- I think the way it is now is nice. YAGNI!*
-* [ ] self defined column separator (text) *- and frames and ... maybe I'll die in options*
+* [ ] self defined column separator (text) *- maybe I'll die in options*
+* [ ] frame around the output (text)
 * [ ] Output filename, Output to stdout is default. *- Isn't stdout all you need? Writing `-o file` or `> file` isn't such a difference.*
 * [x] HTML snippet output to integrate in a website (html)
   * [ ] inbound css (html) *- it's a snippet, that does not make sense*
@@ -61,8 +65,6 @@ just what I (or you) like/want/need.
 * [x] Colored terminal output (text)
   * [ ] coloring bars from green to red or other way round *- To die in beauty. ;)*
   * [ ] choose coloring
-* [ ] process two numbers per row for stacked charts *- Maybe this is overkill?*
-  * [ ] ... for mixed charts
 * [ ] sort input *- there are other tools for this*
 
 
