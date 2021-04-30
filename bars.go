@@ -99,7 +99,7 @@ func initialize() {
 	myParam.labelHeader = flag.String("labelHeader", "", "header text for the label")
 	myParam.valueHeader = flag.String("valueHeader", "", "header text for the value")
 	myParam.chartHeader = flag.String("chartHeader", "", "header text for the chart")
-	myParam.mode = flag.String("mode", "color", "display mode, one of 'plain', 'color'")
+	myParam.mode = flag.String("mode", "color", "display mode, one of 'plain', 'color', 'snippet'")
 	myParam.noHR = flag.Bool("noHR", false, "don't display horizontal ruler in plain mode")
 	flag.Parse()
 }
@@ -208,6 +208,8 @@ func displayBars() {
 		displayTextBars()
 	case "color":
 		displayTextBars()
+	case "snippet":
+		displayHtmlSnippet()
 	default:
 		log.Fatal("Error: mode '" + myValues.mode + "' not yet implemented.")
 	}
