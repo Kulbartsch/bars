@@ -26,19 +26,26 @@ Some ideas might not be implemented,
 just what I (or you) like/want/need.
 
 * Documentation
-  * [ ] better online help (-help)
+  * [ ] better online help `-help`
+  * [ ] manual `-manual`
   * [ ] more examples (COVID)
 * [ ] maximum width of the label
 * [ ] HTML snippet output for integration in a website `-mode=html`. (html)
   * [ ] Output CSS template with `-mode=css`. Does not parse anything. (html)
-  * [ ] full HTML page with title / subtitle (html)  
+  * [ ] full HTML page with title / subtitle with `-mode=page`. (html)  
 * [ ] Dynamic terminal width detection
-* [ ] print a sum
-* [ ] print a average
+* [ ] print a sum `-sum`
+  * [ ] Text-elements `-sumlabel` below the label and `-sumtext` below the chart
+* [ ] print a count `-count`
+  * [ ] Text-elements `-countlabel` below the label and `-counttext` below the chart
+* [ ] print a average `-average`
+  * [ ] Text-elements `-avglabel` below the label and `-avgtext` below the chart
 * [ ] print a count
+  * [ ] Text-elements `-countlabel` below the label and `-counttext` below the chart
 * [ ] define bar chart length, might be nice to define 100% etc. (text)
-* [ ] define a maximum value bar length, if exceeded display `>` (text)
-* [ ] define a minimum value bar length, if below display `<` (text)
+  * [ ] define a maximum value bar length, if exceeded display `>` (text)
+  * [ ] define a minimum value bar length, if below display `<` (text)
+  * [ ] hint if zero axis not in visible range
 * [ ] inverted bars, containing the value, problem might be negative numbers (text)
 * unix tool scripts for use with bars
   * [ ] du
@@ -47,25 +54,31 @@ just what I (or you) like/want/need.
   * [ ] web server logfile analyzer
   * [ ] covid19 scanner
   * [ ] system load (needs definition of chart length)
+  * [ ] ping milliseconds latency
 * [ ] process two numbers per row for stacked charts like  *- Maybe this is overkill?*
   * [ ] ... for mixed charts 
-
+  * [ ] ... for ranges
+* defining limit and visuals
+  * [ ] define low and high limit `-limitmin` and `-limitmax`, comparing __value <= limitmin__ and __value >= limitmax__. This results in 3 ranges: low, mid, high.
+  * [ ] define warning `!` and alert `‼` if value  within one range.
+  * [ ] define color of bars/background? if a value is within a range
+  
 
 ### Ideas which are unlikely to be implemented 
 
-* [ ] Use individual separator, i.e. a semicolon to use the output as a CSV file. (text)
+* [ ] Use individual column separator, i.e. a semicolon to use the output as a CSV file. (text)
 * [ ] Output format definition *- I think the way it is now is nice. YAGNI!*
-* [ ] self defined column separator (text) *- maybe I'll die in options*
 * [ ] frame around the output (text)
 * [ ] Output filename, Output to stdout is default. *- Isn't stdout all you need? Writing `-o file` or `> file` isn't such a difference.*
-* [x] HTML snippet output to integrate in a website (html)
+* HTML snippet output to integrate in a website (html)
   * [ ] inbound css (html) *- it's a snippet, that does not make sense*
   * [ ] choose color (background, text, bars) (html) *- you can/should modify the css template*
 * [ ] autodetect if numbers are on the right or left of the text *- I must be bored to do so (Maybe it's easy: Just try to parse from left and right, count the successful ones. The most successful side wins.)*
-* [x] Colored terminal output (text)
+* Colored terminal output (text)
   * [ ] coloring bars from green to red or other way round *- To die in beauty. ;)*
   * [ ] choose coloring
 * [ ] sort input *- there are other tools for this*
+* [ ] logarithmic scaled output
 
 
 ## Resources
