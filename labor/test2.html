@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test CSS bars</title>
+  <style type="text/css">
+    body {margin: 5px; 
+          color: #444; 
+          background-color: #eee;
+          font-family: Helvetica,Arial,Verdana,sans-serif; }
+  </style>
+</head>
+
+<style type="text/css" media="screen">
+:root {
+    --bars_col_background: #CCC;       /* light grey   */
+    --bars_col_positive:   #FF00FF;    /* magenta      */
+    --bars_col_negative:   #008B8B;    /* cyan         */
+    --bars_col_zero:       #333;       /* dark grey 1  */
+    --bars_col_header:     #444;       /* dark grey 2  */
+    --bars_col_label:      #008;       /* dark blue    */
+    --bars_col_value:      #050;       /* dark green   */
+    --bars_col_footer:     #555;       /* dark grey 3  */
+}
+.bars_chart {
+	display: grid;
+	grid-template-columns: repeat(205, 1fr);
+	grid-row-gap: 5px;
+	font-family: Helvetica,Arial,Verdana,sans-serif;
+	background-color: var(--bars_col_background);
+	border: 2px solid;
+	border-radius: 3px;
+	padding: 4px;
+}
+.bars_header {
+	border-bottom: 2px solid;
+	font-weight: bold;
+	color: var(--bars_col_header);
+}
+.bars_label {
+	grid-column-start: 1; 
+	grid-column-end: 2;
+	color: var(--bars_col_label);
+}
+.bars_value {
+	grid-column-start: 3; 
+	grid-column-end: 4;
+	color: var(--bars_col_value);
+	
+}
+.bars_neg {
+	border-radius: 5px 0 0 5px;
+	background-color: var(--bars_col_negative);
+	grid-column-end: 101;
+}
+.bars_zero {
+	background-color: var(--bars_col_zero);
+}
+.bars_pos {
+	border-radius: 0 5px 5px 0;
+	background-color: var(--bars_col_positive);
+	grid-column-start: 102;
+}
+.bars_footer1 {
+	border-top: 2px solid;
+}
+.bars_footer_left {
+	font-style: italic;
+	grid-column: 1/2;
+	color: var(--bars_col_footer);
+}
+.bars_footer_right {
+	font-style: italic;
+	grid-column: 5/206;
+	color: var(--bars_col_footer);
+}
+</style>
+
+<h2>Test CSS bars</h2>
+<div class="bars_chart" style="grid-template-rows: repeat(10, 1fr);">
+  <div class="bars_header" style="grid-column-start: 1; grid-column-end: 2;">Label</div>
+  <div class="bars_value"  style="grid-column-start: 3; grid-column-end: 4;">Val</div>
+  <div class="bars_header" style="grid-column-start: 5; grid-column-end: 206; text-align:center">Text over Chart</div>
+  
+  <div class="bars_label">Eins</div>
+  	<div class="bars_pos" style="grid-column-end: 151;">&nbsp;50</div>
+  <div class="bars_label">Zwei</div>
+  	<div class="bars_pos" style="grid-column-end: 202;">&nbsp;100</div>
+  <div class="bars_label">Drei</div>
+  	<div class="bars_neg" style="grid-column-start: 71;">&nbsp;-30</div>
+  <div class="bars_label">Vier</div>
+    <div style="grid-column-start: 3;grid-column-end: 98; text-align:right;">-1</div>
+  	<div class="bars_neg" style="grid-column-start: 99;"></div>
+  <div class="bars_label">Fünf</div>
+  	<div class="bars_pos" style="grid-column-end: 103;"></div>   
+  	<div style="grid-column-start: 104;grid-column-end: 202;">0.5</div>
+  <div class="bars_label">Sechs</div >
+  	<div class="bars_pos" style="grid-column-end: 110;">&nbsp;4.0</div>
+  	
+  <div class="bars_zero" style="grid-column-start: 101; grid-column-end: 102;
+  	grid-row-start: 2; grid-row-end: 8;"></div> 
+
+  <div class="bars_footer_left bars_footer1">Sum:</div>
+  	<div class="bars_footer_right bars_footer1">123,5 somethings</div>
+  <div class="bars_footer_left">Count:</div>
+  	<div class="bars_footer_right">6 elements</div>
+  <div class="bars_footer_left">Avg:</div>
+  	<div class="bars_footer_right">20,57</div>
+  
+</div>
+
+</body></html>
