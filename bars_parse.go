@@ -29,7 +29,6 @@ import (
 	"unicode/utf8"
 )
 
-
 // WhiteSpaceTrim trims space, tabs and new lines
 func WhiteSpaceTrim(in string) string {
 	return strings.Trim(in, " \t\n")
@@ -69,7 +68,6 @@ func PurifyNumber(numberText string, comma bool) string {
 	}
 	return re
 }
-
 
 // SplitLabelNumber separates the label from the value
 func SplitLabelNumber(text string, numChars string, fromRight bool, comma bool) (label string, valueText string, value float64, err error) {
@@ -111,7 +109,6 @@ func SplitLabelNumber(text string, numChars string, fromRight bool, comma bool) 
 	nv, err := strconv.ParseFloat(PurifyNumber(nt, comma), 64)
 	return WhiteSpaceTrim(lbl), nt, nv, err
 }
-
 
 func parseLine(text string) {
 	numberChars := "0123456789+-.,E" + *myParam.addNumChars
