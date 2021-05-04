@@ -2,7 +2,7 @@
 
 _Visualize numbers with ease! In the terminal or for web pages._
 
-**A CLI tool to generate bar charts with as (colored) text or HTML.**
+**A CLI tool to generate bar charts as (colored) text or HTML.**
 
 **bars** follows the Unix philosophy:
 > Write programs that do one thing and do it well. 
