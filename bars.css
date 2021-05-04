@@ -1,0 +1,70 @@
+/* include css within <head> tags as
+   <link rel="stylesheet" href="<filename>.css">
+ */
+:root {
+    --bars_col_background: #CCC;       /* light grey   */
+    --bars_col_positive:   #FF00FF;    /* magenta      */
+    --bars_col_negative:   #008B8B;    /* cyan         */
+    --bars_col_zero:       #333;       /* dark grey 1  */
+    --bars_col_header:     #444;       /* dark grey 2  */
+    --bars_col_label:      #008;       /* dark blue    */
+    --bars_col_value:      #050;       /* dark green   */
+    --bars_col_footer:     #555;       /* dark grey 3  */
+}
+.bars_chart {
+    display: grid;
+    grid-template-columns: repeat(205, 1fr);
+    grid-row-gap: 5px;
+    font-family: Helvetica,Arial,Verdana,sans-serif;
+    background-color: var(--bars_col_background);
+    border: 2px solid;
+    border-radius: 3px;
+    padding: 4px;
+    white-space: nowrap;
+}
+.bars_header {
+    border-bottom: 2px solid;
+    font-weight: bold;
+    color: var(--bars_col_header);
+}
+.bars_label {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    color: var(--bars_col_label);
+}
+.bars_value {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    color: var(--bars_col_value);
+    text-align: right;
+}
+.bars_neg {
+    border-radius: 5px 0 0 5px;
+    background-color: var(--bars_col_negative);
+}
+.bars_zero {
+    background-color: var(--bars_col_zero);
+}
+.bars_pos {
+    border-radius: 0 5px 5px 0;
+    background-color: var(--bars_col_positive);
+}
+.bars_footer1 {
+    border-top: 2px solid;
+}
+.bars_footer_left {
+    font-style: italic;
+    grid-column: 1/2;
+    color: var(--bars_col_footer);
+}
+.bars_footer_mid {
+    font-style: italic;
+    grid-column: 3/4;
+    text-align: right;
+    color: var(--bars_col_footer);
+}
+.bars_footer_right {
+    font-style: italic;
+    grid-column: 5/206;
+    color: var(--bars_col_footer);
+}

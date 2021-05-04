@@ -1,6 +1,8 @@
 # bars
 
-**A CLI tool to generate bar charts in the terminal (or as an HTML snippet [WIP]).**
+_Visualize numbers with ease! In the terminal or for web pages._
+
+**A CLI tool to generate bar charts with as (colored) text or HTML.**
 
 **bars** follows the Unix philosophy:
 > Write programs that do one thing and do it well. 
@@ -15,7 +17,7 @@ Features:
 * [X] Alternatively accept a comma as a decimal separator
 * [X] Define the number of decimals to display 
 * [X] Colored terminal output
-* [ ] HTML snippet output to integrate in a website [WIP]
+* [X] HTML output to integrate in a website or as a standalone page
 
 ... and more to come.\
 Checkout the detailed [features](features.md) page.\

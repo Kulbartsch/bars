@@ -1,6 +1,10 @@
 # Releases
 ## Version - Released / Features
 
+### v0.7.0 - 2021-05-05
+- HTML snippet output for integration in a website
+- Output CSS template with for integration in a website
+- Show title
 ### v0.6.0 - 2021-04-28
 - colored output (new default) 
 ### v0.5.0 - 2021-04-28

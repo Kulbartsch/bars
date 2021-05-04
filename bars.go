@@ -46,7 +46,8 @@ type parameters struct {
 	valueHeader *string // value header
 	chartHeader *string // chart header
 	mode        *string // display mode
-	noHR		*bool   // don't display horizontal ruler in plain mode
+	noHR        *bool   // don't display horizontal ruler in plain mode
+	title       *string // title for the chart
 }
 
 type valuesType struct {
@@ -63,7 +64,12 @@ type valuesType struct {
 	chartPLen   int
 	oneVal      float64
 	mode        string
-	headers		bool
+	headers     bool
+	sum         float64
+	htmlNStart  int
+	htmlNEnd    int
+	htmlPStart  int
+	htmlPEnd    int
 }
 
 type chartDataType struct {
@@ -75,13 +81,13 @@ type chartDataType struct {
 var Description = "bars: generate a bar chart in the terminal or as HTML snippet"
 var Copyright = "Copyright © 2021 Alexander Kulbartsch"
 var License = "License: AGPL-3.0-or-later (GNU Affero General Public License 3 or later)"
-var Version = "Version: v0.6.0"
+var Version = "Version: v0.7.0"
 var Source = "Source: https://github.com/Kulbartsch/bars"
 
 var myParam parameters
 var chartData []chartDataType
 var myValues = valuesType{0.0, 0.0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0.0, "", false}
+	0, 0, 0, 0, 0.0, "", false, 0.0, 0, 0, 0, 0}
 
 func initialize() {
 	//myParam.htmlOutput    = flag.Bool("html", false, "generate HTML snippet")
@@ -94,13 +100,14 @@ func initialize() {
 	myParam.verbose = flag.Bool("v", false, "print verbose parsing information")
 	myParam.valueAtEnd = flag.Bool("atEnd", false, "values are at the end of a line")
 	myParam.ascii = flag.Bool("ascii", false, "use ascii dots instead of UTF8 ellipses")
-	myParam.about = flag.Bool("about", false, "display information about this program, with this option other parameters are ignored")
+	myParam.about = flag.Bool("about", false, "display information about this program. Using this option other parameters are ignored")
 	myParam.zero = flag.String("zero", "", "symbol to represent the 0 line in text chart")
 	myParam.labelHeader = flag.String("labelHeader", "", "header text for the label")
 	myParam.valueHeader = flag.String("valueHeader", "", "header text for the value")
 	myParam.chartHeader = flag.String("chartHeader", "", "header text for the chart")
-	myParam.mode = flag.String("mode", "color", "display mode, one of 'plain', 'color', 'snippet'")
-	myParam.noHR = flag.Bool("noHR", false, "don't display horizontal ruler in plain mode")
+	myParam.mode = flag.String("mode", "color", "display mode, one of 'plain', 'color', 'snippet', 'css', 'page'")
+	myParam.noHR = flag.Bool("noruler", false, "don't display horizontal ruler in plain mode")
+	myParam.title = flag.String("title", "", "Title of the chart")
 	flag.Parse()
 }
 
@@ -118,9 +125,9 @@ func validateParameters() {
 	}
 	// preset ASCII or UTF8 symbols
 	if *myParam.ascii {
-		mySymbols = symbolType{ ' ', '*', '-', '|', '#', "..."}
+		mySymbols = symbolType{' ', '*', '-', '|', '#', "..."}
 	} else { // UTF8
-		mySymbols = symbolType{ ' ', '*', '─', '│', '█', "…"}
+		mySymbols = symbolType{' ', '*', '─', '│', '█', "…"}
 	}
 	// validate zero character is one rune
 	lze := utf8.RuneCountInString(*myParam.zero)
@@ -152,11 +159,7 @@ func validateParameters() {
 	case "text":
 		myValues.mode = "plain"
 	}
-	if myValues.mode != "color" && myValues.mode != "plain" {
-		log.Fatal("Error: parameter 'mode', value '" + myValues.mode + "' unknown. See --help for more information.")
-	}
 }
-
 
 func about() {
 	println(Description)
@@ -201,17 +204,22 @@ func parseInput() {
 	}
 }
 
-
 func displayBars() {
 	switch myValues.mode {
 	case "plain":
+		calculateFormat()
 		displayTextBars()
 	case "color":
+		calculateFormat()
 		displayTextBars()
 	case "snippet":
+		calculateHtml()
 		displayHtmlSnippet()
+	case "page":
+		calculateHtml()
+		displayHtmlPage()
 	default:
-		log.Fatal("Error: mode '" + myValues.mode + "' not yet implemented.")
+		log.Fatal("Woot: mode '" + myValues.mode + "' unknown.")
 	}
 }
 
@@ -222,8 +230,11 @@ func main() {
 		about()
 	}
 	validateParameters()
+	if myValues.mode == "css" {
+		displayCSS()
+		os.Exit(0)
+	}
 	parseInput()
-	calculateFormat()
 	displayBars()
 }
 

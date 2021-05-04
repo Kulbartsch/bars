@@ -25,7 +25,7 @@
 }
 .bars_chart {
 	display: grid;
-	grid-template-columns: repeat(205, 1fr);
+	grid-template-columns: repeat(203, 1fr);
 	grid-row-gap: 5px;
 	font-family: Helvetica,Arial,Verdana,sans-serif;
 	background-color: var(--bars_col_background);
@@ -42,12 +42,6 @@
 	grid-column-start: 1; 
 	grid-column-end: 2;
 	color: var(--bars_col_label);
-}
-.bars_value {
-	grid-column-start: 3; 
-	grid-column-end: 4;
-	color: var(--bars_col_value);
-	
 }
 .bars_neg {
 	border-radius: 5px 0 0 5px;
@@ -72,7 +66,7 @@
 }
 .bars_footer_right {
 	font-style: italic;
-	grid-column: 5/206;
+	grid-column: 3/202;
 	color: var(--bars_col_footer);
 }
 </style>
@@ -80,8 +74,7 @@
 <h2>Test CSS bars</h2>
 <div class="bars_chart" style="grid-template-rows: repeat(10, 1fr);">
   <div class="bars_header" style="grid-column-start: 1; grid-column-end: 2;">Label</div>
-  <div class="bars_value"  style="grid-column-start: 3; grid-column-end: 4;">Val</div>
-  <div class="bars_header" style="grid-column-start: 5; grid-column-end: 206; text-align:center">Text over Chart</div>
+  <div class="bars_header" style="grid-column-start: 3; grid-column-end: 202; text-align:center">Text over Chart</div>
   
   <div class="bars_label">Eins</div>
   	<div class="bars_pos" style="grid-column-end: 151;">&nbsp;50</div>

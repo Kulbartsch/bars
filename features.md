@@ -11,13 +11,15 @@
 * [X] Choose the 0 axis separator with `-zero=<t>`. (text)
 * [X] Label will be shortened if there are not at least seven characters for the bar. (text)
 * [X] Header line with texts for label `-labelHeader=<t>`, value `-valueHeader=<t>` and chart `-chartHeader=<t>`.
-* [X] Header line separator/ruler, can be deactivated with `--noHR`. (text)
+* [X] Header line separator/ruler, can be deactivated with `--noruler`. (text)
 * [X] Nice UTF8 symbol support for output, can be deactivated with `-ascii`. (text)
 * [X] Colored terminal output, `-mode=color` is default. Does only work on ANSI/VT100 compatible terminals. For the plain monochrome text output use `-mode=plain`. (text)
+* [X] HTML snippet output for integration in a website `-mode=html`. (html)
+* [X] Output CSS template with for integration in a website `-mode=css`. Does not parse anything. (html)
+* [X] Full HTML page with title using `-mode=page`. (html)
 
 Elements marked with (text) are for text output only. \
 Elements marked with (html) are for HTML output only.
-
 
 ## Ideas to implement
 
@@ -30,9 +32,9 @@ just what I (or you) like/want/need.
   * [ ] manual `-manual`
   * [ ] more examples (COVID)
 * [ ] maximum width of the label
-* [ ] HTML snippet output for integration in a website `-mode=html`. (html)
-  * [ ] Output CSS template with `-mode=css`. Does not parse anything. (html)
-  * [ ] full HTML page with title / subtitle with `-mode=page`. (html)  
+* HTML output
+  * [ ] header level (html)
+  * [ ] dark mode output (html)
 * [ ] Dynamic terminal width detection
 * [ ] print a sum `-sum`
   * [ ] Text-elements `-sumlabel` below the label and `-sumtext` below the chart
@@ -40,13 +42,10 @@ just what I (or you) like/want/need.
   * [ ] Text-elements `-countlabel` below the label and `-counttext` below the chart
 * [ ] print a average `-average`
   * [ ] Text-elements `-avglabel` below the label and `-avgtext` below the chart
-* [ ] print a count
-  * [ ] Text-elements `-countlabel` below the label and `-counttext` below the chart
-* [ ] define bar chart length, might be nice to define 100% etc. (text)
-  * [ ] define a maximum value bar length, if exceeded display `>` (text)
-  * [ ] define a minimum value bar length, if below display `<` (text)
-  * [ ] hint if zero axis not in visible range
-* [ ] inverted bars, containing the value, problem might be negative numbers (text)
+* [ ] define bar chart length, might be nice to define 100% etc.
+  * [ ] define a maximum value bar length, if exceeded display `>`.
+  * [ ] define a minimum value bar length, if below display `<`.
+  * [ ] visual hint if zero axis not in visible range.
 * unix tool scripts for use with bars
   * [ ] du
   * [ ] df
@@ -59,10 +58,9 @@ just what I (or you) like/want/need.
   * [ ] ... for mixed charts 
   * [ ] ... for ranges
 * defining limit and visuals
-  * [ ] define low and high limit `-limitmin` and `-limitmax`, comparing __value <= limitmin__ and __value >= limitmax__. This results in 3 ranges: low, mid, high.
+  * [ ] define low and high limit `-limitlow` and `-limithigh`, comparing *value <= limitlow* and *value >= limithigh*. This results in 3 ranges: low, mid, high.
   * [ ] define warning `!` and alert `‼` if value  within one range.
   * [ ] define color of bars/background? if a value is within a range
-  
 
 ### Ideas which are unlikely to be implemented 
 
@@ -79,7 +77,8 @@ just what I (or you) like/want/need.
   * [ ] choose coloring
 * [ ] sort input *- there are other tools for this*
 * [ ] logarithmic scaled output
-
+* [ ] `-combined` view of values within the bar charts. Could become challenging when chart elements are short. Inverted bars in text mode.
+* [ ] i18n
 
 ## Resources
 
