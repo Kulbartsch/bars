@@ -48,6 +48,9 @@ type parameters struct {
 	mode        *string // display mode
 	noHR        *bool   // don't display horizontal ruler in plain mode
 	title       *string // title for the chart
+	sum			*bool 	// display sum of values
+	count		*bool	// display count of values
+	average		*bool 	// display average of vales
 }
 
 type valuesType struct {
@@ -70,6 +73,13 @@ type valuesType struct {
 	htmlNEnd    int
 	htmlPStart  int
 	htmlPEnd    int
+	sumValText  string
+	cntValText	string
+	avgValText	string
+	numTextLen	int
+	sumLabelText	string
+	cntLabelText	string
+	avgLabelText	string
 }
 
 type chartDataType struct {
@@ -87,27 +97,31 @@ var Source = "Source: https://github.com/Kulbartsch/bars"
 var myParam parameters
 var chartData []chartDataType
 var myValues = valuesType{0.0, 0.0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0.0, "", false, 0.0, 0, 0, 0, 0}
+	0, 0, 0, 0, 0.0, "", false, 0.0, 0, 0, 0, 0,
+	"","","",0, "Sum", "Count", "Average"}
 
 func initialize() {
 	//myParam.htmlOutput    = flag.Bool("html", false, "generate HTML snippet")
-	myParam.decimals = flag.Int("decimals", 0, "number of decimals")
-	myParam.comma = flag.Bool("comma", false, "use comma as decimal separator")
-	myParam.comment = flag.String("comment", "#", "comment line start")
-	myParam.outputWidth = flag.Int("outputWidth", 80, "width of the text output") // limit text output to n chars. Default 80% of width
-	myParam.addNumChars = flag.String("addNumChars", "", "additional characters representing a number")
-	myParam.verbose = flag.Bool("verbose", false, "print verbose parsing information")
-	myParam.verbose = flag.Bool("v", false, "print verbose parsing information")
-	myParam.valueAtEnd = flag.Bool("atEnd", false, "values are at the end of a line")
-	myParam.ascii = flag.Bool("ascii", false, "use ascii dots instead of UTF8 ellipses")
-	myParam.about = flag.Bool("about", false, "display information about this program. Using this option other parameters are ignored")
-	myParam.zero = flag.String("zero", "", "symbol to represent the 0 line in text chart")
-	myParam.labelHeader = flag.String("labelHeader", "", "header text for the label")
-	myParam.valueHeader = flag.String("valueHeader", "", "header text for the value")
-	myParam.chartHeader = flag.String("chartHeader", "", "header text for the chart")
-	myParam.mode = flag.String("mode", "color", "display mode, one of 'plain', 'color', 'snippet', 'css', 'page'")
-	myParam.noHR = flag.Bool("noruler", false, "don't display horizontal ruler in plain mode")
-	myParam.title = flag.String("title", "", "Title of the chart")
+	myParam.decimals	= flag.Int("decimals", 0, "number of decimals")
+	myParam.comma		= flag.Bool("comma", false, "use comma as decimal separator")
+	myParam.comment	 	= flag.String("comment", "#", "comment line start")
+	myParam.outputWidth	= flag.Int("output-width", 80, "width of the text output") // limit text output to n chars. Default 80% of width
+	myParam.addNumChars	= flag.String("add-num-chars", "", "additional characters representing a number")
+	myParam.verbose	 	= flag.Bool("verbose", false, "print verbose parsing information")
+	myParam.verbose	 	= flag.Bool("v", false, "print verbose parsing information")
+	myParam.valueAtEnd	= flag.Bool("at-end", false, "values are at the end of a line")
+	myParam.ascii	 	= flag.Bool("ascii", false, "use ascii dots instead of UTF8 ellipses")
+	myParam.about	 	= flag.Bool("about", false, "display information about this program. Using this option other parameters are ignored")
+	myParam.zero		= flag.String("zero", "", "symbol to represent the 0 line in text chart")
+	myParam.labelHeader = flag.String("label-header", "", "header text for the label")
+	myParam.valueHeader = flag.String("value-header", "", "header text for the value")
+	myParam.chartHeader	= flag.String("chart-header", "", "header text for the chart")
+	myParam.mode 		= flag.String("mode", "color", "display mode, one of 'plain', 'color', 'snippet', 'css', 'page'")
+	myParam.noHR 		= flag.Bool("no-ruler", false, "don't display horizontal ruler in plain mode")
+	myParam.title 		= flag.String("title", "", "Title of the chart")
+	myParam.sum 		= flag.Bool("sum", false, "display sum of values")
+	myParam.count 		= flag.Bool("count", false, "display count of values")
+	myParam.average		= flag.Bool("average", false, "display average of values")
 	flag.Parse()
 }
 

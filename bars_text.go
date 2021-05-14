@@ -40,9 +40,22 @@ type symbolType struct {
 
 var mySymbols symbolType
 
+// MaxInt returns the bigger ont of to integers
+func MaxInt(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
 func calculateFormat() {
 	// calculate width of separators
 	separatorsWidth := 2
+	// calculate number col width
+	myValues.sumValText = fmt.Sprintf("%."+strconv.Itoa(*myParam.decimals)+"f", myValues.sum)
+	myValues.cntValText = fmt.Sprintf("%."+strconv.Itoa(*myParam.decimals)+"f", myValues.linesValid)
+	myValues.avgValText = fmt.Sprintf("%."+strconv.Itoa(*myParam.decimals)+"f", myValues.sum / float64(myValues.linesValid))
+	myValues.valueTxtLen = MaxInt(myValues.valueTxtLen, MaxInt(len(myValues.sumValText), MaxInt(len(myValues.cntValText), len(myValues.avgValText))))
 	// check min width
 	minWidth := separatorsWidth + 7 /* min label */ + 7 /* min bars */ + myValues.valueTxtLen
 	if *myParam.outputWidth < minWidth {
@@ -55,10 +68,11 @@ func calculateFormat() {
 	if myValues.chartLen < 7 {
 		myValues.chartLen = 7
 		myValues.labelLen = restWidth - myValues.chartLen
-		if myValues.labelLen < 7 {
+		if myValues.labelLen < 2 {
 			log.Fatal("Error: error calculating label/bars length. Label length: ", myValues.labelLen)
 		}
 	}
+	calculateFooterLabels()
 	// calculate bars-element size
 	spread := myValues.valueMax
 	if myValues.valueMin < 0 {
@@ -78,6 +92,28 @@ func calculateFormat() {
 		log.Println("... negative part   : " + strconv.Itoa(myValues.chartNLen))
 		log.Println("... positive part   : " + strconv.Itoa(myValues.chartPLen))
 		log.Println("one bar char length : " + strconv.FormatFloat(myValues.oneVal, 'G', -1, 32))
+	}
+}
+
+func calculateFooterLabels() {
+	if *myParam.sum {
+		if myValues.labelLen < 3 {
+			myValues.sumLabelText = "Σ"
+		}
+	}
+	if *myParam.count {
+		if myValues.labelLen < 5 && myValues.labelLen >= 3 {
+			myValues.cntValText = "Cnt"
+		} else if myValues.labelLen < 3 {
+			myValues.cntValText = "#"
+		}
+	}
+	if *myParam.average {
+		if myValues.labelLen < 7 && myValues.labelLen >= 3 {
+			myValues.cntValText = "Avg"
+		} else if myValues.labelLen < 3 {
+			myValues.cntValText = "⦵"
+		}
 	}
 }
 

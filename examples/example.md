@@ -30,7 +30,7 @@ A bill:
 
 With this command: 
 
-    $ bars -comma -addNumChars=€ -comment="[" -decimals=2 examples/bill.txt
+    $ bars -comma -add-num-chars=€ -comment="[" -decimals=2 examples/bill.txt
 
 The commas are used as the decimal separator.
 The € sign is part of the number (we don't want it to be part of the label text).
@@ -58,7 +58,7 @@ The File:
 
 The Command: 
 
-    bars -decimals 2 --comma -addNumChars=°C --atEnd -outputWidth=100 -labelHeader=City -valueHeader="°C" -chartHeader="temperature in degree celsius" -noHR examples/temperatur.txt
+    bars -decimals 2 --comma -add-num-chars=°C --at-end -output-width=100 -label-header=City -value-header="°C" -chart-header="temperature in degree celsius" -no-ruler examples/temperatur.txt
 
 You can use one or two dashes for a parameter. 
 
@@ -76,7 +76,7 @@ The Result:
 
 ## Visualize your disk usage 
 
-    df -x squashfs -x tmpfs | awk '{print $5 " " $6} END{print "100% 100%"}' | bars -ascii -addNumChars=% -labelHeader=mount -valueHeader=% -chartHeader=usage
+    df -x squashfs -x tmpfs | awk '{print $5 " " $6} END{print "100% 100%"}' | bars -ascii -add-num-chars=% -label-header=mount -value-header=% -chart-header=usage
 
 This command may result in something like:
 

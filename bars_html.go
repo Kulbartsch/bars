@@ -74,13 +74,13 @@ func displayHtmlSnippet() {
 	fmt.Println("<div class=\"bars_chart\" style=\"grid-template-rows: repeat(" + strconv.Itoa(n) + ", 1fr);\">")
 	if myValues.headers {
 		fmt.Println("  <div class=\"bars_header\" style=\"grid-column: 1/2;\">" + TextToLen(*myParam.labelHeader, myValues.labelLen, mySymbols.headerFiller, false, exceedMark, false, mySymbols.errors) + "</div>")
-		fmt.Println("  <div class=\"bars_header\"  style=\"grid-column: 3/4;text-align:right\">" + TextToLen(*myParam.valueHeader, myValues.labelLen, mySymbols.headerFiller, false, exceedMark, false, mySymbols.errors) + "</div>")
-		fmt.Println("  <div class=\"bars_header\" style=\"grid-column: 5/206; text-align:left\">" + TextToLen(*myParam.chartHeader, myValues.labelLen, mySymbols.headerFiller, false, exceedMark, false, mySymbols.errors) + "</div>")
+		fmt.Println("  <div class=\"bars_header\"  style=\"grid-column: 3/4;text-align:right\">" + *myParam.valueHeader + "</div>")
+		fmt.Println("  <div class=\"bars_header\" style=\"grid-column: 5/206; text-align:left\">" + *myParam.chartHeader + "</div>")
 	}
 	var m int
 	for _, pair := range chartData {
 		label := TextToLen(pair.label, myValues.labelLen, ' ', false, mySymbols.exceedMark, false, mySymbols.errors)
-		value := TextToLen(pair.valueText, myValues.valueTxtLen, ' ', true, mySymbols.exceedMark, false, mySymbols.errors)
+		value := pair.valueText
 		fmt.Println("  <div class=\"bars_label\">" + label + "</div>")
 		fmt.Println("    <div class=\"bars_value\">" + value + "</div>")
 		if pair.value < 0 {

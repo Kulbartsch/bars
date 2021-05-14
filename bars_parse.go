@@ -54,7 +54,7 @@ func RemoveInvalidChars(text, valid string) string {
 	return result
 }
 
-//
+// PurifyNumber removes non numerical characters from text
 func PurifyNumber(numberText string, comma bool) string {
 	var numberChars string
 	if comma {
@@ -79,7 +79,7 @@ func SplitLabelNumber(text string, numChars string, fromRight bool, comma bool) 
 	var r rune
 	var nt string  // number text
 	var lbl string // label
-	isnum := true
+	isNum := true
 	for i := 0; i < l; i += 1 {
 		if fromRight {
 			r = runes[l-i-1]
@@ -87,7 +87,7 @@ func SplitLabelNumber(text string, numChars string, fromRight bool, comma bool) 
 			r = runes[i]
 		}
 		sr := string(r)
-		if isnum {
+		if isNum {
 			if strings.ContainsAny(sr, numChars) {
 				if fromRight {
 					nt = sr + nt
@@ -95,10 +95,10 @@ func SplitLabelNumber(text string, numChars string, fromRight bool, comma bool) 
 					nt = nt + sr
 				}
 			} else { // no number char
-				isnum = false
+				isNum = false
 			}
 		}
-		if !isnum {
+		if !isNum {
 			if fromRight {
 				lbl = sr + lbl
 			} else {

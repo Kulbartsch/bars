@@ -17,6 +17,7 @@
 * [X] HTML snippet output for integration in a website `-mode=html`. (html)
 * [X] Output CSS template with for integration in a website `-mode=css`. Does not parse anything. (html)
 * [X] Full HTML page with title using `-mode=page`. (html)
+* [X] change option names from CamelCase to "-" separator
 
 Elements marked with (text) are for text output only. \
 Elements marked with (html) are for HTML output only.
@@ -28,9 +29,9 @@ Some ideas might not be implemented,
 just what I (or you) like/want/need.
 
 * Documentation
-  * [ ] better online help `-help`
+  * [ ] better online help `-help`?
   * [ ] manual `-manual`
-  * [ ] more examples (COVID)
+  * [ ] more/update examples (COVID)
 * [ ] maximum width of the label
 * HTML output
   * [ ] header level (html)
@@ -54,13 +55,15 @@ just what I (or you) like/want/need.
   * [ ] covid19 scanner
   * [ ] system load (needs definition of chart length)
   * [ ] ping milliseconds latency
-* [ ] process two numbers per row for stacked charts like  *- Maybe this is overkill?*
-  * [ ] ... for mixed charts 
-  * [ ] ... for ranges
 * defining limit and visuals
   * [ ] define low and high limit `-limitlow` and `-limithigh`, comparing *value <= limitlow* and *value >= limithigh*. This results in 3 ranges: low, mid, high.
   * [ ] define warning `!` and alert `‼` if value  within one range.
   * [ ] define color of bars/background? if a value is within a range
+* [ ] display scale respectively high and low values at end
+* [ ] process two numbers per row for stacked charts like  *- Maybe this is overkill?*
+  * [ ] ... for mixed charts
+  * [ ] ... for ranges
+
 
 ### Ideas which are unlikely to be implemented 
 
