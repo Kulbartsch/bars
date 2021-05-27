@@ -129,6 +129,7 @@ func parseLine(text string) {
 	}
 	valueText := fmt.Sprintf("%."+strconv.Itoa(*myParam.decimals)+"f", value)
 	valTxtLen := len(valueText)
+	myValues.sum += value
 	// ...
 	labelLength := utf8.RuneCountInString(label)
 	if *myParam.verbose {

@@ -96,6 +96,7 @@ func displayHtmlSnippet() {
 	// zero line
 	fmt.Println("  <div class=\"bars_zero\" style=\"grid-column:" + strconv.Itoa(offsetX+myValues.chartNLen) + "/" + strconv.Itoa(offsetX+myValues.chartNLen+1) + "; grid-row:" + strconv.Itoa(offsetY) + "/" + strconv.Itoa(offsetY+myValues.linesValid) + ";\"></div>")
 	// footer
+	// TODO: implement footer
 	// end
 	fmt.Println("</div>")
 }

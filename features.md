@@ -28,26 +28,33 @@ Don't take this list for granted.
 Some ideas might not be implemented, 
 just what I (or you) like/want/need.
 
-* Documentation
+WIP 
+
+* [ ] print a sum `-sum`
+  * [ ] Text-elements `-sum-label` below the label and `-sum-text` below the chart
+* [ ] print a count `-count`
+  * [ ] Text-elements `-count-label` below the label and `-count-text` below the chart
+* [ ] print a average `-average`
+  * [ ] Text-elements `-avg-label` below the label and `-avg-text` below the chart
+* [ ] online manual `-manual`
+* [ ] self defined chart symbol (text)
+
+Open 
+
+* [ ] Documentation
   * [ ] better online help `-help`?
-  * [ ] manual `-manual`
   * [ ] more/update examples (COVID)
 * [ ] maximum width of the label
-* HTML output
-  * [ ] header level (html)
+* [ ] HTML output
+  * [ ] header level for title (html)
   * [ ] dark mode output (html)
+* [ ] self defined field separator 
 * [ ] Dynamic terminal width detection
-* [ ] print a sum `-sum`
-  * [ ] Text-elements `-sumlabel` below the label and `-sumtext` below the chart
-* [ ] print a count `-count`
-  * [ ] Text-elements `-countlabel` below the label and `-counttext` below the chart
-* [ ] print a average `-average`
-  * [ ] Text-elements `-avglabel` below the label and `-avgtext` below the chart
 * [ ] define bar chart length, might be nice to define 100% etc.
   * [ ] define a maximum value bar length, if exceeded display `>`.
   * [ ] define a minimum value bar length, if below display `<`.
   * [ ] visual hint if zero axis not in visible range.
-* unix tool scripts for use with bars
+* [ ] unix tool scripts for use with bars
   * [ ] du
   * [ ] df
   * [ ] top processes (CPU, Mem, IO)
@@ -55,15 +62,14 @@ just what I (or you) like/want/need.
   * [ ] covid19 scanner
   * [ ] system load (needs definition of chart length)
   * [ ] ping milliseconds latency
-* defining limit and visuals
-  * [ ] define low and high limit `-limitlow` and `-limithigh`, comparing *value <= limitlow* and *value >= limithigh*. This results in 3 ranges: low, mid, high.
+* [ ] defining limit and visuals
+  * [ ] define low and high limit `-limit-low` and `-limit-high`, comparing *value <= limit-low* and *value >= limit-high*. This results in 3 ranges: low, mid, high.
   * [ ] define warning `!` and alert `‼` if value  within one range.
   * [ ] define color of bars/background? if a value is within a range
 * [ ] display scale respectively high and low values at end
 * [ ] process two numbers per row for stacked charts like  *- Maybe this is overkill?*
   * [ ] ... for mixed charts
   * [ ] ... for ranges
-
 
 ### Ideas which are unlikely to be implemented 
 
@@ -95,4 +101,6 @@ just what I (or you) like/want/need.
   * https://misc.flogisoft.com/bash/tip_colors_and_formatting
 * COVID
   * https://www.worldometers.info/coronavirus/worldwide-graphs/#daily-cases
+* Alternative
+  * [Termgraph](https://github.com/mkaz/termgraph) (Python program)
   

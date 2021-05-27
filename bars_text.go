@@ -53,10 +53,11 @@ func calculateFormat() {
 	separatorsWidth := 2
 	// calculate number col width
 	myValues.sumValText = fmt.Sprintf("%."+strconv.Itoa(*myParam.decimals)+"f", myValues.sum)
-	myValues.cntValText = fmt.Sprintf("%."+strconv.Itoa(*myParam.decimals)+"f", myValues.linesValid)
-	myValues.avgValText = fmt.Sprintf("%."+strconv.Itoa(*myParam.decimals)+"f", myValues.sum / float64(myValues.linesValid))
+	myValues.cntValText = fmt.Sprintf("%."+strconv.Itoa(*myParam.decimals)+"f", float64(myValues.linesValid))
+	myValues.avgValText = fmt.Sprintf("%."+strconv.Itoa(*myParam.decimals)+"f", myValues.sum/float64(myValues.linesValid))
 	myValues.valueTxtLen = MaxInt(myValues.valueTxtLen, MaxInt(len(myValues.sumValText), MaxInt(len(myValues.cntValText), len(myValues.avgValText))))
 	// check min width
+	// TODO: label could be shorter than 7 chars (2 in UTF8 mode, 4 in ASCII mode)
 	minWidth := separatorsWidth + 7 /* min label */ + 7 /* min bars */ + myValues.valueTxtLen
 	if *myParam.outputWidth < minWidth {
 		log.Fatal("Error: need min ", minWidth, " chars width, but there is only ", *myParam.outputWidth, " chars.")
@@ -191,7 +192,7 @@ func AnsiText(text string, format string) string {
 	switch format {
 	case "bold":
 		f = "1"
-	case "title":
+	case "title", "footer":
 		f = "1"
 	case "underline":
 		f = "4"
@@ -248,9 +249,33 @@ func displayTextBarsHeader(exceedMark string) {
 	}
 }
 
+func displayTextBarsOneFooter(lbl, val, txt string) {
+	label := TextToLen(lbl, myValues.labelLen, ' ', false, mySymbols.exceedMark, false, mySymbols.errors)
+	value := TextToLen(val, myValues.valueTxtLen, ' ', true, mySymbols.exceedMark, false, mySymbols.errors)
+	text := TextToLen(txt, myValues.chartLen, ' ', false, mySymbols.exceedMark, false, mySymbols.errors)
+	// TODO: better footer formating (cursive?)
+	fmt.Print(colorize(label, "footer") + " ")
+	fmt.Print(colorize(value, "footer") + " ")
+	fmt.Println(colorize(text, "footer"))
+}
+
+func displayTextBarsFooter() {
+	// TODO: if ascii show ruler
+	if *myParam.sum {
+		displayTextBarsOneFooter(myValues.sumLabelText, myValues.sumValText, "")
+	}
+	if *myParam.count {
+		displayTextBarsOneFooter(myValues.cntLabelText, myValues.cntValText, "")
+	}
+	if *myParam.average {
+		displayTextBarsOneFooter(myValues.avgLabelText, myValues.avgValText, "")
+	}
+}
+
 func displayTextBars() {
 	//var label string
 	displayTextBarsHeader(mySymbols.exceedMark)
+	// TODO: if not ascii and there are footer lines, last line should be underlined
 	for _, pair := range chartData {
 		//ll := utf8.RuneCountInString(pair.label)
 		//vl := utf8.RuneCountInString(pair.valueText)
@@ -276,6 +301,7 @@ func displayTextBars() {
 			fmt.Println("")
 		}
 	}
+	displayTextBarsFooter()
 }
 
 // EOF

@@ -2,11 +2,11 @@
 
 _Visualize numbers with ease! In the terminal or for web pages._
 
-**A CLI tool to generate bar charts as (colored) text or HTML.**
+**A CLI tool to generate bar charts as (colored) text or HTML, written in Go**
 
 **bars** follows the Unix philosophy:
-> Write programs that do one thing and do it well. 
-> Write programs to work together. 
+> Write programs that do one thing and do it well.  
+> Write programs to work together.  
 > Write programs to handle text streams, because that is a universal interface.
 
 Features: 
@@ -17,7 +17,10 @@ Features:
 * [X] Alternatively accept a comma as a decimal separator
 * [X] Define the number of decimals to display 
 * [X] Colored terminal output
+* [X] Optional print the sum, count and average of the give values
 * [X] HTML output to integrate in a website or as a standalone page
+* [X] No runtime dependencies, just one binary!
+* [X] No compile time dependencies, just one repo
 
 ... and more to come.\
 Checkout the detailed [features](features.md) page.\
@@ -44,4 +47,14 @@ There are parameters to accept units in the values,
 use a comma instead of a dot as a decimal separator 
 and more. 
 
-**See here for [more examples](examples/example.md).** 
+**See here for**
+* [more examples](examples/example.md)
+* [an exhaustive manual](manual.md)
+
+## License
+
+Copyright © 2021 Alexander Kulbartsch   
+License AGPL-3.0-or-later (GNU Affero General Public License 3 or later)
+
+You find a copy of the [GNU Affero General Public License](LICENSE) in this repo.  
+If not, see <http://www.gnu.org/licenses/>.

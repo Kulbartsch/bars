@@ -89,5 +89,29 @@ This command may result in something like:
     /run/media/me/data    13 #####
     100%                 100 ###########################################
 
-I added a 100% bar with awk for better comparability.
+I added a 100% bar with awk for better comparability. 
+(There is a feature in the queue which makes this obsolete.)
 
+
+## many flags combined
+
+The File:
+
+    -182.456; Methane
+    -114; Ethanol
+    -38.36; Mercury (quicksilver)
+    *0; Water
+
+The Command:
+
+    bars --add-num-chars="*;" -output-width=20 -value-header="°C" -label-header=Element -chart-header=temperature -count -title="Melting Point" -ascii meltingpoint.csv
+
+The Result: 
+
+    Melting Point
+    Element   °C temp...
+    Methane -182 ######|
+    Ethanol -114    ###|
+    Merc...  -38      #|
+    Water      0       |
+    Count      4
