@@ -29,9 +29,10 @@ import (
 	"unicode/utf8"
 )
 
-// WhiteSpaceTrim trims space, tabs and new lines
-func WhiteSpaceTrim(in string) string {
-	return strings.Trim(in, " \t\n")
+// WhiteSpacePlusTrim trims space, tabs and new lines
+func WhiteSpacePlusTrim(in string) string {
+	cutset := " \t\n" + *myParam.trimValues
+	return strings.Trim(in, cutset)
 }
 
 // RemoveInvalidChars from text checking against set of valid chars
@@ -107,7 +108,7 @@ func SplitLabelNumber(text string, numChars string, fromRight bool, comma bool) 
 		}
 	}
 	nv, err := strconv.ParseFloat(PurifyNumber(nt, comma), 64)
-	return WhiteSpaceTrim(lbl), nt, nv, err
+	return WhiteSpacePlusTrim(lbl), nt, nv, err
 }
 
 func parseLine(text string) {

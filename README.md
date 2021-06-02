@@ -9,7 +9,7 @@ _Visualize numbers with ease! In the terminal or for web pages._
 > Write programs to work together.  
 > Write programs to handle text streams, because that is a universal interface.
 
-Features: 
+## Main Features 
 
 * [X] Handles UTF8 characters
 * [X] Values can be on the left or right side
@@ -20,7 +20,8 @@ Features:
 * [X] Optional print the sum, count and average of the give values
 * [X] HTML output to integrate in a website or as a standalone page
 * [X] No runtime dependencies, just one binary!
-* [X] No compile time dependencies, just one repo
+* [X] No compile time dependencies, just one repo!
+* [X] Manual included 
 
 ... and more to come.\
 Checkout the detailed [features](features.md) page.\

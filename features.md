@@ -18,6 +18,7 @@
 * [X] Output CSS template with for integration in a website `-mode=css`. Does not parse anything. (html)
 * [X] Full HTML page with title using `-mode=page`. (html)
 * [X] change option names from CamelCase to "-" separator
+* [X] self defined chart symbol (text)
 
 Elements marked with (text) are for text output only. \
 Elements marked with (html) are for HTML output only.
@@ -30,30 +31,31 @@ just what I (or you) like/want/need.
 
 WIP 
 
-* [ ] print a sum `-sum`
+* [X] print a sum `-sum`
   * [ ] Text-elements `-sum-label` below the label and `-sum-text` below the chart
-* [ ] print a count `-count`
+* [X] print a count `-count`
   * [ ] Text-elements `-count-label` below the label and `-count-text` below the chart
-* [ ] print a average `-average`
+* [X] print a average `-average`
   * [ ] Text-elements `-avg-label` below the label and `-avg-text` below the chart
 * [ ] online manual `-manual`
-* [ ] self defined chart symbol (text)
+
 
 Open 
 
+* [ ] Width of the label text
+* [ ] Width of the value text
+* [ ] define bar chart length, might be nice to define 100% etc.
+  * [ ] define a maximum value bar length, if exceeded display `>`.
+  * [ ] define a minimum value bar length, if below display `<`.
+  * [ ] visual hint if zero axis not in visible range.
 * [ ] Documentation
   * [ ] better online help `-help`?
   * [ ] more/update examples (COVID)
-* [ ] maximum width of the label
 * [ ] HTML output
   * [ ] header level for title (html)
   * [ ] dark mode output (html)
 * [ ] self defined field separator 
 * [ ] Dynamic terminal width detection
-* [ ] define bar chart length, might be nice to define 100% etc.
-  * [ ] define a maximum value bar length, if exceeded display `>`.
-  * [ ] define a minimum value bar length, if below display `<`.
-  * [ ] visual hint if zero axis not in visible range.
 * [ ] unix tool scripts for use with bars
   * [ ] du
   * [ ] df

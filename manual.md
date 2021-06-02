@@ -1,13 +1,14 @@
-# bars - Manual
+# **bars** - Manual
 
 *Easily generate bar charts from the command line as text or HTML*
 
 ## General Information
 
 **bars** follows the Unix philosophy:
-> Write programs that do one thing and do it well.
-> Write programs to work together.
-> Write programs to handle text streams, because that is a universal interface.
+> Write programs that do one thing and do it well.  
+> Write programs to work together.  
+> Write programs to handle text streams, 
+> because that is a universal interface.
 
 **bars** takes a text file or *stdin* stream as the input data.
 The result ist writen to *stdout*.
@@ -47,32 +48,45 @@ With the flag `-about` information about version, license of
 **bars** are displayed.  
 The program ends without any further processing.
 
+The flag `-manual` shows this documentation.  
+The program ends without any further processing.
+
 `-v` or `-verbose` prints information about the parsing of the input
 data to stdout. This is helpful for identifying parsing problems.
 
 
-## Flags for parsing of input data
+## Parsing of input data
 
-	myParam.comment	 	= flag.String("comment", "#", "comment line start")
+For each line of the input data **bars** tries to split into a value
+(number) part, and a label (text). Everything which is not part of 
+the value is the label.  
+Lines which don't match this pattern are ignored, as well as comment
+line. Comments start by default with a "#". This can be changed with 
+the flag `-comment`. For example, it can be defined that lines
+beginning with a semicolon are comments using:
 
-### Where is the numeric value 
+    --comment=";"
 
-	myParam.valueAtEnd	= flag.Bool("at-end", false, "values are at the end of a line")
+### Numeric value position 
 
-### What is the numeric value 
+The numbers for the chart are expected to be at the beginning of a
+line. If the numbers are at the end use `-at-end`.
+
+### Separating numeric value and label 
 
 	myParam.addNumChars	= flag.String("add-num-chars", "", "additional characters representing a number")
+	myParam.trimValues = flag.String("trim-values", ";,", "additional values to white space to trim from label")
 
 ### Decimal comma
 
-	myParam.comma		= flag.Bool("comma", false, "use comma as decimal separator")
+By default, numbers are parsed with a dot "." as the decimal 
+separator. If you want to use a comma "," just use the flag
+`-comma`.
+
 
 ## Control Output Formatting
 
 	myParam.mode 		= flag.String("mode", "color", "display mode, one of 'plain', 'color', 'snippet', 'css', 'page'")
-
-
-## Flags for controlling output 
 
 ### Number format
 
@@ -124,12 +138,20 @@ UTF8 characters.)
 
 ### Self defined symbols (only valid for text modes)
 
+in case there are negative numbers in the data a zero axis is 
+displayed. By default, this is printed using the pipe "|" symbol
+or a vertical line.  
+With the flag "-zero-symbol" (or just "-zero") this symbol can be 
+changed. 
 
-	myParam.zero		= flag.String("zero", "", "symbol to represent the 0 line in text chart")
-	myParam.zero		= flag.String("zero-symbol", "", "symbol to represent the 0 line in text chart")
-	myParam.chartSymbol = flag.String("chart-symbol", "", "alternative symbol for text-mode bars")	
+The default bar chart symbol "#" can easily be replaced with the
+`-chart-symbol` flag. Of course, it's possible to use any UTF8 symbol
+like "🮱".  
 
-### HTML Output (only valid for html modes)
+Hint: The output of extra wide UTF8 symbols may look weird, 
+depending on your font and terminal program. 
+
+### Title and header   
 
 	myParam.title 		= flag.String("title", "", "Title of the chart")
 

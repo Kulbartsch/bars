@@ -58,6 +58,7 @@ func calculateFormat() {
 	myValues.valueTxtLen = MaxInt(myValues.valueTxtLen, MaxInt(len(myValues.sumValText), MaxInt(len(myValues.cntValText), len(myValues.avgValText))))
 	// check min width
 	// TODO: label could be shorter than 7 chars (2 in UTF8 mode, 4 in ASCII mode)
+
 	minWidth := separatorsWidth + 7 /* min label */ + 7 /* min bars */ + myValues.valueTxtLen
 	if *myParam.outputWidth < minWidth {
 		log.Fatal("Error: need min ", minWidth, " chars width, but there is only ", *myParam.outputWidth, " chars.")
@@ -221,6 +222,15 @@ func colorize(text string, format string) string {
 	return text
 }
 
+func displayTextRuler() {
+	if !*myParam.noHR {
+		filler := mySymbols.ruler
+		fmt.Print(TextToLen("", myValues.labelLen, filler, false, exceedMark, false, mySymbols.errors) + " ")
+		fmt.Print(TextToLen("", myValues.valueTxtLen, filler, false, exceedMark, false, mySymbols.errors) + " ")
+		fmt.Println(TextToLen("", myValues.chartLen, filler, false, exceedMark, false, mySymbols.errors))
+	}
+}
+
 func displayTextBarsHeader(exceedMark string) {
 	if len(*myParam.title) > 0 {
 		if myValues.mode == "color" {
@@ -240,12 +250,7 @@ func displayTextBarsHeader(exceedMark string) {
 		fmt.Print(TextToLen(*myParam.labelHeader, myValues.labelLen, mySymbols.headerFiller, false, exceedMark, false, mySymbols.errors) + " ")
 		fmt.Print(TextToLen(*myParam.valueHeader, myValues.valueTxtLen, mySymbols.headerFiller, true, exceedMark, false, mySymbols.errors) + " ")
 		fmt.Println(TextToLen(*myParam.chartHeader, myValues.chartLen, mySymbols.headerFiller, false, exceedMark, false, mySymbols.errors))
-		if !*myParam.noHR {
-			filler := mySymbols.ruler
-			fmt.Print(TextToLen("", myValues.labelLen, filler, false, exceedMark, false, mySymbols.errors) + " ")
-			fmt.Print(TextToLen("", myValues.valueTxtLen, filler, false, exceedMark, false, mySymbols.errors) + " ")
-			fmt.Println(TextToLen("", myValues.chartLen, filler, false, exceedMark, false, mySymbols.errors))
-		}
+		displayTextRuler()
 	}
 }
 
@@ -253,14 +258,16 @@ func displayTextBarsOneFooter(lbl, val, txt string) {
 	label := TextToLen(lbl, myValues.labelLen, ' ', false, mySymbols.exceedMark, false, mySymbols.errors)
 	value := TextToLen(val, myValues.valueTxtLen, ' ', true, mySymbols.exceedMark, false, mySymbols.errors)
 	text := TextToLen(txt, myValues.chartLen, ' ', false, mySymbols.exceedMark, false, mySymbols.errors)
-	// TODO: better footer formating (cursive?)
+	// TODO: better footer formatting (cursive?)
 	fmt.Print(colorize(label, "footer") + " ")
 	fmt.Print(colorize(value, "footer") + " ")
 	fmt.Println(colorize(text, "footer"))
 }
 
 func displayTextBarsFooter() {
-	// TODO: if ascii show ruler
+	if myValues.mode == "plain" {
+		displayTextRuler()
+	}
 	if *myParam.sum {
 		displayTextBarsOneFooter(myValues.sumLabelText, myValues.sumValText, "")
 	}

@@ -52,6 +52,7 @@ type parameters struct {
 	count       *bool   // display count of values
 	average     *bool   // display average of vales
 	chartSymbol *string // chart symbol
+	trimValues  *string // additional trim values
 }
 
 type valuesType struct {
@@ -92,7 +93,7 @@ type chartDataType struct {
 var Description = "bars: generate a bar chart in the terminal or as HTML snippet"
 var Copyright = "Copyright © 2021 Alexander Kulbartsch"
 var License = "License: AGPL-3.0-or-later (GNU Affero General Public License 3 or later)"
-var Version = "Version: v0.7.0"
+var Version = "Version: v0.8.0"
 var Source = "Source: https://github.com/Kulbartsch/bars"
 
 var myParam parameters
@@ -125,6 +126,7 @@ func initialize() {
 	myParam.count = flag.Bool("count", false, "display count of values")
 	myParam.average = flag.Bool("average", false, "display average of values")
 	myParam.chartSymbol = flag.String("chart-symbol", "", "alternative symbol for text-mode bars")
+	myParam.trimValues = flag.String("trim-values", ";,", "additional values to white space to trim from label")
 	flag.Parse()
 }
 
@@ -145,6 +147,14 @@ func validateParameters() {
 		mySymbols = symbolType{' ', '*', '-', '|', '#', "..."}
 	} else { // UTF8
 		mySymbols = symbolType{' ', '*', '─', '│', '█', "…"}
+	}
+	// use self defined chart-symbol
+	if len(*myParam.chartSymbol) > 0 {
+		if utf8.RuneCountInString(*myParam.chartSymbol) > 1 {
+			log.Fatal("Error: parameter 'chart-symbol' must be exactly one symbol")
+		} else {
+			mySymbols.bar = []rune(*myParam.chartSymbol)[0]
+		}
 	}
 	// validate zero character is one rune
 	lze := utf8.RuneCountInString(*myParam.zero)
@@ -207,7 +217,7 @@ func parseInput() {
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
 		myValues.lines += 1
-		text := WhiteSpaceTrim(scanner.Text())
+		text := WhiteSpacePlusTrim(scanner.Text())
 		if strings.HasPrefix(text, *myParam.comment) {
 			continue
 		}
@@ -250,6 +260,7 @@ func main() {
 	if *myParam.about {
 		about()
 	}
+	// TODO: show manual
 	validateParameters()
 	if myValues.mode == "css" {
 		displayCSS()

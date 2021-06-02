@@ -106,12 +106,18 @@ The Command:
 
     bars --add-num-chars="*;" -output-width=20 -value-header="°C" -label-header=Element -chart-header=temperature -count -title="Melting Point" -ascii meltingpoint.csv
 
+or
+
+    bars -output-width=20 -value-header="°C" -label-header=Element -chart-header=temperature  -count -title="Melting Point" -ascii -trim-values=";*" -chart-symbol=❄ examples/meltingpoint.csv
+
 The Result: 
 
     Melting Point
     Element   °C temp...
-    Methane -182 ######|
-    Ethanol -114    ###|
-    Merc...  -38      #|
+    Methane -182 ❄❄❄❄❄❄|
+    Ethanol -114    ❄❄❄|
+    Merc...  -38      ❄|
     Water      0       |
     Count      4
+
+## TODO: exponential numbers  
