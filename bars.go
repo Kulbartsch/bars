@@ -23,6 +23,7 @@ package main
 
 import (
 	"bufio"
+	_ "embed"
 	"flag"
 	"io"
 	"log"
@@ -30,6 +31,9 @@ import (
 	"strings"
 	"unicode/utf8"
 )
+
+//go:embed "manual.md"
+var barsManual string
 
 type parameters struct {
 	comma       *bool   // use comma as decimal separator
@@ -52,7 +56,8 @@ type parameters struct {
 	count       *bool   // display count of values
 	average     *bool   // display average of vales
 	chartSymbol *string // chart symbol
-	trimValues  *string // additional trim values
+	trimChars   *string // additional trim values
+	manual      *bool   // show manual
 }
 
 type valuesType struct {
@@ -110,11 +115,9 @@ func initialize() {
 	myParam.outputWidth = flag.Int("output-width", 80, "width of the text output") // limit text output to n chars. Default 80% of width
 	myParam.addNumChars = flag.String("add-num-chars", "", "additional characters representing a number")
 	myParam.verbose = flag.Bool("verbose", false, "print verbose parsing information")
-	myParam.verbose = flag.Bool("v", false, "print verbose parsing information")
 	myParam.valueAtEnd = flag.Bool("at-end", false, "values are at the end of a line")
 	myParam.ascii = flag.Bool("ascii", false, "use ascii dots instead of UTF8 ellipses")
 	myParam.about = flag.Bool("about", false, "display information about this program. Using this option other parameters are ignored")
-	myParam.zero = flag.String("zero", "", "symbol to represent the 0 line in text chart")
 	myParam.zero = flag.String("zero-symbol", "", "symbol to represent the 0 line in text chart")
 	myParam.labelHeader = flag.String("label-header", "", "header text for the label")
 	myParam.valueHeader = flag.String("value-header", "", "header text for the value")
@@ -126,7 +129,8 @@ func initialize() {
 	myParam.count = flag.Bool("count", false, "display count of values")
 	myParam.average = flag.Bool("average", false, "display average of values")
 	myParam.chartSymbol = flag.String("chart-symbol", "", "alternative symbol for text-mode bars")
-	myParam.trimValues = flag.String("trim-values", ";,", "additional values to white space to trim from label")
+	myParam.trimChars = flag.String("trim-chars", ";,", "additional values to white space to trim from label")
+	myParam.manual = flag.Bool("manual", false, "Show the manual")
 	flag.Parse()
 }
 
@@ -197,6 +201,11 @@ func about() {
 	os.Exit(0)
 }
 
+func displayManual() {
+	print(barsManual)
+	about()
+}
+
 func openStdinOrFile() io.Reader {
 	var err error
 	var r *os.File
@@ -260,7 +269,9 @@ func main() {
 	if *myParam.about {
 		about()
 	}
-	// TODO: show manual
+	if *myParam.manual {
+		displayManual()
+	}
 	validateParameters()
 	if myValues.mode == "css" {
 		displayCSS()

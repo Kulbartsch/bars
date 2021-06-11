@@ -31,7 +31,7 @@ import (
 
 // WhiteSpacePlusTrim trims space, tabs and new lines
 func WhiteSpacePlusTrim(in string) string {
-	cutset := " \t\n" + *myParam.trimValues
+	cutset := " \t\n" + *myParam.trimChars
 	return strings.Trim(in, cutset)
 }
 

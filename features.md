@@ -19,6 +19,9 @@
 * [X] Full HTML page with title using `-mode=page`. (html)
 * [X] change option names from CamelCase to "-" separator
 * [X] self defined chart symbol (text)
+* 
+* [X] online manual `-manual`
+
 
 Elements marked with (text) are for text output only. \
 Elements marked with (html) are for HTML output only.
@@ -37,12 +40,12 @@ WIP
   * [ ] Text-elements `-count-label` below the label and `-count-text` below the chart
 * [X] print a average `-average`
   * [ ] Text-elements `-avg-label` below the label and `-avg-text` below the chart
-* [ ] online manual `-manual`
 
 
 Open 
 
-* [ ] Width of the label text
+* [ ] finalize manual 
+* [ ] Fixed width of the label text
 * [ ] Width of the value text
 * [ ] define bar chart length, might be nice to define 100% etc.
   * [ ] define a maximum value bar length, if exceeded display `>`.

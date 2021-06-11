@@ -48,6 +48,14 @@ func MaxInt(a, b int) int {
 	return b
 }
 
+// MinInt returns the bigger ont of to integers
+func MinInt(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
 func calculateFormat() {
 	// calculate width of separators
 	separatorsWidth := 2
@@ -57,9 +65,7 @@ func calculateFormat() {
 	myValues.avgValText = fmt.Sprintf("%."+strconv.Itoa(*myParam.decimals)+"f", myValues.sum/float64(myValues.linesValid))
 	myValues.valueTxtLen = MaxInt(myValues.valueTxtLen, MaxInt(len(myValues.sumValText), MaxInt(len(myValues.cntValText), len(myValues.avgValText))))
 	// check min width
-	// TODO: label could be shorter than 7 chars (2 in UTF8 mode, 4 in ASCII mode)
-
-	minWidth := separatorsWidth + 7 /* min label */ + 7 /* min bars */ + myValues.valueTxtLen
+	minWidth := separatorsWidth + MinInt(7, myValues.labelMaxLen) /* 7 = min label */ + 7 /* min bars */ + myValues.valueTxtLen
 	if *myParam.outputWidth < minWidth {
 		log.Fatal("Error: need min ", minWidth, " chars width, but there is only ", *myParam.outputWidth, " chars.")
 	}
@@ -193,8 +199,10 @@ func AnsiText(text string, format string) string {
 	switch format {
 	case "bold":
 		f = "1"
-	case "title", "footer":
-		f = "1"
+	case "title":
+		f = "1"  // bold
+	case "footer":
+		f = "3"  // Itlaic
 	case "underline":
 		f = "4"
 	case "header":
@@ -208,8 +216,18 @@ func AnsiText(text string, format string) string {
 	case "lcyan", "negative":
 		f = "96"
 	case "zero":
-		f = "39"
-	default:
+		f = "39" // Default foreground color
+	case "value_ul":
+		f = "92;4"
+	case "label_ul":
+		f = "94;4"
+	case "positive_ul":
+		f = "95;4"
+	case "negative_ul":
+		f = "96;4"
+	case "zero_ul":
+		f = "39;4"
+ 	default:
 		f = format
 	}
 	return "\x1B[" + f + "m" + text + "\x1B[0m"
@@ -225,9 +243,9 @@ func colorize(text string, format string) string {
 func displayTextRuler() {
 	if !*myParam.noHR {
 		filler := mySymbols.ruler
-		fmt.Print(TextToLen("", myValues.labelLen, filler, false, exceedMark, false, mySymbols.errors) + " ")
-		fmt.Print(TextToLen("", myValues.valueTxtLen, filler, false, exceedMark, false, mySymbols.errors) + " ")
-		fmt.Println(TextToLen("", myValues.chartLen, filler, false, exceedMark, false, mySymbols.errors))
+		fmt.Print(TextToLen("", myValues.labelLen, filler, false, "", false, mySymbols.errors) + " ")
+		fmt.Print(TextToLen("", myValues.valueTxtLen, filler, false, "", false, mySymbols.errors) + " ")
+		fmt.Println(TextToLen("", myValues.chartLen, filler, false, "", false, mySymbols.errors))
 	}
 }
 
@@ -258,7 +276,6 @@ func displayTextBarsOneFooter(lbl, val, txt string) {
 	label := TextToLen(lbl, myValues.labelLen, ' ', false, mySymbols.exceedMark, false, mySymbols.errors)
 	value := TextToLen(val, myValues.valueTxtLen, ' ', true, mySymbols.exceedMark, false, mySymbols.errors)
 	text := TextToLen(txt, myValues.chartLen, ' ', false, mySymbols.exceedMark, false, mySymbols.errors)
-	// TODO: better footer formatting (cursive?)
 	fmt.Print(colorize(label, "footer") + " ")
 	fmt.Print(colorize(value, "footer") + " ")
 	fmt.Println(colorize(text, "footer"))
@@ -282,28 +299,26 @@ func displayTextBarsFooter() {
 func displayTextBars() {
 	//var label string
 	displayTextBarsHeader(mySymbols.exceedMark)
-	// TODO: if not ascii and there are footer lines, last line should be underlined
-	for _, pair := range chartData {
-		//ll := utf8.RuneCountInString(pair.label)
-		//vl := utf8.RuneCountInString(pair.valueText)
+	ul := ""
+	for i, pair := range chartData {
+		if i == len(chartData) - 1 && myValues.mode == "color" && (*myParam.sum || *myParam.count || *myParam.average) {  // if color and there are footer lines, last line should be underlined
+			ul = "_ul"
+		}
 		label := TextToLen(pair.label, myValues.labelLen, ' ', false, mySymbols.exceedMark, false, mySymbols.errors)
 		value := TextToLen(pair.valueText, myValues.valueTxtLen, ' ', true, mySymbols.exceedMark, false, mySymbols.errors)
-		//ll = utf8.RuneCountInString(label)
-		//fmt.Print(label + strings.Repeat(" ", myValues.labelLen-ll+1) +
-		//	strings.Repeat(" ", myValues.valueTxtLen-vl) + pair.valueText + " ")
-		fmt.Print(colorize(label, "label") + " ")
-		fmt.Print(colorize(value, "value") + " ")
+		fmt.Print(colorize(label, "label"+ul) + " ")
+		fmt.Print(colorize(value, "value"+ul) + " ")
 		if myValues.valueMin < 0 {
 			if pair.value < 0 {
 				fmt.Print(strings.Repeat(" ", myValues.chartNLen+int(pair.value/myValues.oneVal)) +
-					colorize(strings.Repeat(string(mySymbols.bar), int(-pair.value/myValues.oneVal)), "negative"))
+					colorize(strings.Repeat(string(mySymbols.bar), int(-pair.value/myValues.oneVal)), "negative"+ul))
 			} else {
 				fmt.Print(strings.Repeat(" ", myValues.chartNLen))
 			}
-			fmt.Print(colorize(string(mySymbols.zero), "zero"))
+			fmt.Print(colorize(string(mySymbols.zero), "zero"+ul))
 		}
 		if pair.value > 0 {
-			fmt.Println(colorize(strings.Repeat(string(mySymbols.bar), int(pair.value/myValues.oneVal)), "positive"))
+			fmt.Println(colorize(strings.Repeat(string(mySymbols.bar), int(pair.value/myValues.oneVal)), "positive"+ul))
 		} else {
 			fmt.Println("")
 		}

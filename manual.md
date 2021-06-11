@@ -51,7 +51,7 @@ The program ends without any further processing.
 The flag `-manual` shows this documentation.  
 The program ends without any further processing.
 
-`-v` or `-verbose` prints information about the parsing of the input
+`-verbose` prints information about the parsing of the input
 data to stdout. This is helpful for identifying parsing problems.
 
 
@@ -75,7 +75,7 @@ line. If the numbers are at the end use `-at-end`.
 ### Separating numeric value and label 
 
 	myParam.addNumChars	= flag.String("add-num-chars", "", "additional characters representing a number")
-	myParam.trimValues = flag.String("trim-values", ";,", "additional values to white space to trim from label")
+	myParam.trimValues = flag.String("trim-chars", ";,", "additional values to white space to trim from label")
 
 ### Decimal comma
 
@@ -141,8 +141,7 @@ UTF8 characters.)
 in case there are negative numbers in the data a zero axis is 
 displayed. By default, this is printed using the pipe "|" symbol
 or a vertical line.  
-With the flag "-zero-symbol" (or just "-zero") this symbol can be 
-changed. 
+With the flag "-zero-symbol" this symbol can be changed. 
 
 The default bar chart symbol "#" can easily be replaced with the
 `-chart-symbol` flag. Of course, it's possible to use any UTF8 symbol
@@ -151,7 +150,7 @@ like "🮱".
 Hint: The output of extra wide UTF8 symbols may look weird, 
 depending on your font and terminal program. 
 
-### Title and header   
+### Title and header (all modes)
 
 	myParam.title 		= flag.String("title", "", "Title of the chart")
 
@@ -165,4 +164,4 @@ depending on your font and terminal program.
 	myParam.count 		= flag.Bool("count", false, "display count of values")
 	myParam.average		= flag.Bool("average", false, "display average of values")
 
-
+## About

@@ -60,6 +60,27 @@ func calculateHtml() {
 	}
 }
 
+func displayHtmlBarsOneFooter(lbl, val, txt string) {
+	label := TextToLen(lbl, myValues.labelLen, ' ', false, mySymbols.exceedMark, false, mySymbols.errors)
+	value := TextToLen(val, myValues.valueTxtLen, ' ', true, mySymbols.exceedMark, false, mySymbols.errors)
+	text := TextToLen(txt, myValues.chartLen, ' ', false, mySymbols.exceedMark, false, mySymbols.errors)
+	fmt.Print(colorize(label, "footer") + " ")
+	fmt.Print(colorize(value, "footer") + " ")
+	fmt.Println(colorize(text, "footer"))
+}
+
+func displayHtmlBarsFooter() {
+	if *myParam.sum {
+		displayTextBarsOneFooter(myValues.sumLabelText, myValues.sumValText, "")
+	}
+	if *myParam.count {
+		displayTextBarsOneFooter(myValues.cntLabelText, myValues.cntValText, "")
+	}
+	if *myParam.average {
+		displayTextBarsOneFooter(myValues.avgLabelText, myValues.avgValText, "")
+	}
+}
+
 func displayHtmlSnippet() {
 	exceedMark := mySymbols.exceedMark
 	offsetX := 5
