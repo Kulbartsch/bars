@@ -60,24 +60,24 @@ func calculateHtml() {
 	}
 }
 
-func displayHtmlBarsOneFooter(lbl, val, txt string) {
-	label := TextToLen(lbl, myValues.labelLen, ' ', false, mySymbols.exceedMark, false, mySymbols.errors)
-	value := TextToLen(val, myValues.valueTxtLen, ' ', true, mySymbols.exceedMark, false, mySymbols.errors)
-	text := TextToLen(txt, myValues.chartLen, ' ', false, mySymbols.exceedMark, false, mySymbols.errors)
-	fmt.Print(colorize(label, "footer") + " ")
-	fmt.Print(colorize(value, "footer") + " ")
-	fmt.Println(colorize(text, "footer"))
+func displayHtmlBarsOneFooter(lbl, val, txt, ul string) {
+	fmt.Println("  <div class=\"bars_footer" + ul + "\" style=\"grid-column: 1/2;\">" + TextToLen(lbl, myValues.labelLen, mySymbols.headerFiller, false, mySymbols.exceedMark, false, mySymbols.errors) + "</div>")
+	fmt.Println("  <div class=\"bars_footer" + ul + "\" style=\"grid-column: 3/4;text-align:right\">" + val + "</div>")
+	fmt.Println("  <div class=\"bars_footer" + ul + "\" style=\"grid-column: 5/206; text-align:left\">" + txt + "</div>")
 }
 
 func displayHtmlBarsFooter() {
+	ul := " bars_footer1"
 	if *myParam.sum {
-		displayTextBarsOneFooter(myValues.sumLabelText, myValues.sumValText, "")
+		displayHtmlBarsOneFooter(myValues.sumLabelText, myValues.sumValText, "", ul)
+		ul = ""
 	}
 	if *myParam.count {
-		displayTextBarsOneFooter(myValues.cntLabelText, myValues.cntValText, "")
+		displayHtmlBarsOneFooter(myValues.cntLabelText, myValues.cntValText, "", ul)
+		ul = ""
 	}
 	if *myParam.average {
-		displayTextBarsOneFooter(myValues.avgLabelText, myValues.avgValText, "")
+		displayHtmlBarsOneFooter(myValues.avgLabelText, myValues.avgValText, "", ul)
 	}
 }
 
@@ -95,7 +95,7 @@ func displayHtmlSnippet() {
 	fmt.Println("<div class=\"bars_chart\" style=\"grid-template-rows: repeat(" + strconv.Itoa(n) + ", 1fr);\">")
 	if myValues.headers {
 		fmt.Println("  <div class=\"bars_header\" style=\"grid-column: 1/2;\">" + TextToLen(*myParam.labelHeader, myValues.labelLen, mySymbols.headerFiller, false, exceedMark, false, mySymbols.errors) + "</div>")
-		fmt.Println("  <div class=\"bars_header\"  style=\"grid-column: 3/4;text-align:right\">" + *myParam.valueHeader + "</div>")
+		fmt.Println("  <div class=\"bars_header\" style=\"grid-column: 3/4;text-align:right\">" + *myParam.valueHeader + "</div>")
 		fmt.Println("  <div class=\"bars_header\" style=\"grid-column: 5/206; text-align:left\">" + *myParam.chartHeader + "</div>")
 	}
 	var m int
@@ -117,7 +117,7 @@ func displayHtmlSnippet() {
 	// zero line
 	fmt.Println("  <div class=\"bars_zero\" style=\"grid-column:" + strconv.Itoa(offsetX+myValues.chartNLen) + "/" + strconv.Itoa(offsetX+myValues.chartNLen+1) + "; grid-row:" + strconv.Itoa(offsetY) + "/" + strconv.Itoa(offsetY+myValues.linesValid) + ";\"></div>")
 	// footer
-	// TODO: implement footer
+	displayHtmlBarsFooter()
 	// end
 	fmt.Println("</div>")
 }

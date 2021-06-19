@@ -19,8 +19,10 @@
 * [X] Full HTML page with title using `-mode=page`. (html)
 * [X] change option names from CamelCase to "-" separator
 * [X] self defined chart symbol (text)
-* 
-* [X] online manual `-manual`
+* [X] print a sum `-sum`
+* [X] print a count `-count`
+* [X] print a average `-average`
+* [X] online manual `-manual` (wip)
 
 
 Elements marked with (text) are for text output only. \
@@ -46,7 +48,7 @@ Open
 
 * [ ] finalize manual 
 * [ ] Fixed width of the label text
-* [ ] Width of the value text
+* [ ] Fixed Width of the value text
 * [ ] define bar chart length, might be nice to define 100% etc.
   * [ ] define a maximum value bar length, if exceeded display `>`.
   * [ ] define a minimum value bar length, if below display `<`.
@@ -67,6 +69,7 @@ Open
   * [ ] covid19 scanner
   * [ ] system load (needs definition of chart length)
   * [ ] ping milliseconds latency
+  * [ ] system temperature
 * [ ] defining limit and visuals
   * [ ] define low and high limit `-limit-low` and `-limit-high`, comparing *value <= limit-low* and *value >= limit-high*. This results in 3 ranges: low, mid, high.
   * [ ] define warning `!` and alert `‼` if value  within one range.

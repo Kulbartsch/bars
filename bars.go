@@ -25,9 +25,11 @@ import (
 	"bufio"
 	_ "embed"
 	"flag"
+	"fmt"
 	"io"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 	"unicode/utf8"
 )
@@ -98,7 +100,7 @@ type chartDataType struct {
 var Description = "bars: generate a bar chart in the terminal or as HTML snippet"
 var Copyright = "Copyright © 2021 Alexander Kulbartsch"
 var License = "License: AGPL-3.0-or-later (GNU Affero General Public License 3 or later)"
-var Version = "Version: v0.8.0"
+var Version = "Version: v0.8.0 WIP"
 var Source = "Source: https://github.com/Kulbartsch/bars"
 
 var myParam parameters
@@ -189,6 +191,8 @@ func validateParameters() {
 		myValues.mode = "color"
 	case "text":
 		myValues.mode = "plain"
+	case "html":
+		myValues.mode = "page"
 	}
 }
 
@@ -241,7 +245,9 @@ func parseInput() {
 }
 
 func calculateFooterValues() {
-
+	myValues.sumValText = fmt.Sprintf("%."+strconv.Itoa(*myParam.decimals)+"f", myValues.sum)
+	myValues.cntValText = fmt.Sprintf("%."+strconv.Itoa(*myParam.decimals)+"f", float64(myValues.linesValid))
+	myValues.avgValText = fmt.Sprintf("%."+strconv.Itoa(*myParam.decimals)+"f", myValues.sum/float64(myValues.linesValid))
 }
 
 func displayBars() {
@@ -278,6 +284,7 @@ func main() {
 		os.Exit(0)
 	}
 	parseInput()
+	calculateFooterValues()
 	displayBars()
 }
 

@@ -60,9 +60,6 @@ func calculateFormat() {
 	// calculate width of separators
 	separatorsWidth := 2
 	// calculate number col width
-	myValues.sumValText = fmt.Sprintf("%."+strconv.Itoa(*myParam.decimals)+"f", myValues.sum)
-	myValues.cntValText = fmt.Sprintf("%."+strconv.Itoa(*myParam.decimals)+"f", float64(myValues.linesValid))
-	myValues.avgValText = fmt.Sprintf("%."+strconv.Itoa(*myParam.decimals)+"f", myValues.sum/float64(myValues.linesValid))
 	myValues.valueTxtLen = MaxInt(myValues.valueTxtLen, MaxInt(len(myValues.sumValText), MaxInt(len(myValues.cntValText), len(myValues.avgValText))))
 	// check min width
 	minWidth := separatorsWidth + MinInt(7, myValues.labelMaxLen) /* 7 = min label */ + 7 /* min bars */ + myValues.valueTxtLen
@@ -200,9 +197,9 @@ func AnsiText(text string, format string) string {
 	case "bold":
 		f = "1"
 	case "title":
-		f = "1"  // bold
+		f = "1" // bold
 	case "footer":
-		f = "3"  // Itlaic
+		f = "3" // Itlaic
 	case "underline":
 		f = "4"
 	case "header":
@@ -227,7 +224,7 @@ func AnsiText(text string, format string) string {
 		f = "96;4"
 	case "zero_ul":
 		f = "39;4"
- 	default:
+	default:
 		f = format
 	}
 	return "\x1B[" + f + "m" + text + "\x1B[0m"
@@ -301,7 +298,7 @@ func displayTextBars() {
 	displayTextBarsHeader(mySymbols.exceedMark)
 	ul := ""
 	for i, pair := range chartData {
-		if i == len(chartData) - 1 && myValues.mode == "color" && (*myParam.sum || *myParam.count || *myParam.average) {  // if color and there are footer lines, last line should be underlined
+		if i == len(chartData)-1 && myValues.mode == "color" && (*myParam.sum || *myParam.count || *myParam.average) { // if color and there are footer lines, last line should be underlined
 			ul = "_ul"
 		}
 		label := TextToLen(pair.label, myValues.labelLen, ' ', false, mySymbols.exceedMark, false, mySymbols.errors)

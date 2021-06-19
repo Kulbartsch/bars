@@ -79,14 +79,54 @@ line. If the numbers are at the end use `-at-end`.
 
 ### Decimal comma
 
-By default, numbers are parsed with a dot "." as the decimal 
+By default, numbers are parsed with a dot "." as the decimal
 separator. If you want to use a comma "," just use the flag
 `-comma`.
 
 
 ## Control Output Formatting
 
-	myParam.mode 		= flag.String("mode", "color", "display mode, one of 'plain', 'color', 'snippet', 'css', 'page'")
+**bars** are either displayed as text or as HTML. 
+
+terminal or as an email
+
+an HTML page or snippet.
+
+To control the output the basic option is `-mode`, which is described
+in the following.
+
+### Text modes
+
+`-mode=color` (or 'colour') is the default mode. It displays the
+information in the terminal using ANSI codes for colorizing and 
+formatting the output.
+
+Alternatively the `-mode=plain` (or `-mode=text`) displays plain
+text without any colors and formatting.
+
+Don't mix up "*ANSI color* vs *plain text*" with "*ASCII* vs *UTF-8*"
+as the first is for colorizing, and the second for the used character
+encoding.
+
+### HTML modes 
+
+You can either generate a complete HTML-page an HTML-snippet to 
+include it in a webpage.  
+
+With `-mode=page` (or `-mode=html`) a complete webpage with included
+stylesheet is generated. 
+
+To get an HTML-snippet use `-mode=snippet`. There is no CSS included
+because you probably want to include it as a seperate file.  To get 
+the style sheet use `-mode=css`.  In this case no input data is 
+parsed. 
+
+Remember to use the `>` to write the HTML and CSS to a file:
+
+    bars --mode=page test.dat > test.html
+
+For both ways - text and HTML - are several options to control the
+layout.
 
 ### Number format
 
@@ -152,13 +192,14 @@ depending on your font and terminal program.
 
 ### Title and header (all modes)
 
-	myParam.title 		= flag.String("title", "", "Title of the chart")
+To display a title above the chart use `--title="My Super Chart"`.
 
-### Header and summary (all modes)
 
 	myParam.labelHeader = flag.String("label-header", "", "header text for the label")
 	myParam.valueHeader = flag.String("value-header", "", "header text for the value")
 	myParam.chartHeader	= flag.String("chart-header", "", "header text for the chart")
+
+### Summary (all modes)
 
 	myParam.sum 		= flag.Bool("sum", false, "display sum of values")
 	myParam.count 		= flag.Bool("count", false, "display count of values")
