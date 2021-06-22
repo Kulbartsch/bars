@@ -2,7 +2,7 @@
 
 _Visualize numbers with ease! In the terminal or for web pages._
 
-**A CLI tool to generate bar charts as (colored) text or HTML, written in Go**
+**A CLI tool to generate bar charts from text input as (colored) text or HTML, written in Go.**
 
 **bars** follows the Unix philosophy:
 > Write programs that do one thing and do it well.  
@@ -17,7 +17,7 @@ _Visualize numbers with ease! In the terminal or for web pages._
 * [X] Alternatively accept a comma as a decimal separator
 * [X] Define the number of decimals to display 
 * [X] Colored terminal output
-* [X] Optional print the sum, count and average of the give values
+* [X] Optional print the sum, count and average of the given values
 * [X] HTML output to integrate in a website or as a standalone page
 * [X] No runtime dependencies, just one binary!
 * [X] No compile time dependencies, just one repo!

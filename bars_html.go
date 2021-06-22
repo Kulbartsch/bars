@@ -61,23 +61,23 @@ func calculateHtml() {
 }
 
 func displayHtmlBarsOneFooter(lbl, val, txt, ul string) {
-	fmt.Println("  <div class=\"bars_footer" + ul + "\" style=\"grid-column: 1/2;\">" + TextToLen(lbl, myValues.labelLen, mySymbols.headerFiller, false, mySymbols.exceedMark, false, mySymbols.errors) + "</div>")
-	fmt.Println("  <div class=\"bars_footer" + ul + "\" style=\"grid-column: 3/4;text-align:right\">" + val + "</div>")
-	fmt.Println("  <div class=\"bars_footer" + ul + "\" style=\"grid-column: 5/206; text-align:left\">" + txt + "</div>")
+	fmt.Println("  <div class=\"bars_footer_left" + ul + "\" style=\"grid-column: 1/2;\">" + TextToLen(lbl, myValues.labelLen, mySymbols.headerFiller, false, mySymbols.exceedMark, false, mySymbols.errors) + "</div>")
+	fmt.Println("  <div class=\"bars_footer_mid" + ul + "\" style=\"grid-column: 3/4;text-align:right\">" + val + "</div>")
+	fmt.Println("  <div class=\"bars_footer_right" + ul + "\" style=\"grid-column: 5/206; text-align:left\">" + txt + "</div>")
 }
 
 func displayHtmlBarsFooter() {
 	ul := " bars_footer1"
 	if *myParam.sum {
-		displayHtmlBarsOneFooter(myValues.sumLabelText, myValues.sumValText, "", ul)
+		displayHtmlBarsOneFooter(myValues.sumLabelText, myValues.sumValText, *myParam.sumText, ul)
 		ul = ""
 	}
 	if *myParam.count {
-		displayHtmlBarsOneFooter(myValues.cntLabelText, myValues.cntValText, "", ul)
+		displayHtmlBarsOneFooter(myValues.cntLabelText, myValues.cntValText, *myParam.countText, ul)
 		ul = ""
 	}
 	if *myParam.average {
-		displayHtmlBarsOneFooter(myValues.avgLabelText, myValues.avgValText, "", ul)
+		displayHtmlBarsOneFooter(myValues.avgLabelText, myValues.avgValText, *myParam.averageText, ul)
 	}
 }
 

@@ -1,13 +1,17 @@
 # Releases
 ## Version - Released / Features
 
-### V0.8.0 - 
+### V0.8.1 - 2021-06-21
+- Summary lines labels and texts
+- online manual `-manual`
+### V0.8.0 - 2021-06-11
 - Optional footer with sum, count and average line with
   default and variable label texts and additional texts
 - Online Manual  
 - Option for additional trim parameters, default is to 
   trim comma and semicolon
 - self defined chart symbol (text)
+- print summary lines
 ### v0.7.0 - 2021-05-05
 - HTML snippet output for integration in a website
 - Output CSS template with for integration in a website

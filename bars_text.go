@@ -101,23 +101,23 @@ func calculateFormat() {
 }
 
 func calculateFooterLabels() {
-	if *myParam.sum {
+	if *myParam.sum && *myParam.sumLabel == "" {
 		if myValues.labelLen < 3 {
 			myValues.sumLabelText = "Σ"
 		}
 	}
-	if *myParam.count {
+	if *myParam.count && *myParam.countLabel == "" {
 		if myValues.labelLen < 5 && myValues.labelLen >= 3 {
-			myValues.cntValText = "Cnt"
+			myValues.cntLabelText = "Cnt"
 		} else if myValues.labelLen < 3 {
-			myValues.cntValText = "#"
+			myValues.cntLabelText = "#"
 		}
 	}
-	if *myParam.average {
+	if *myParam.average && *myParam.averageLabel == "" {
 		if myValues.labelLen < 7 && myValues.labelLen >= 3 {
-			myValues.cntValText = "Avg"
+			myValues.avgLabelText = "Avg"
 		} else if myValues.labelLen < 3 {
-			myValues.cntValText = "⦵"
+			myValues.avgLabelText = "⦵"
 		}
 	}
 }
@@ -283,13 +283,13 @@ func displayTextBarsFooter() {
 		displayTextRuler()
 	}
 	if *myParam.sum {
-		displayTextBarsOneFooter(myValues.sumLabelText, myValues.sumValText, "")
+		displayTextBarsOneFooter(myValues.sumLabelText, myValues.sumValText, *myParam.sumText)
 	}
 	if *myParam.count {
-		displayTextBarsOneFooter(myValues.cntLabelText, myValues.cntValText, "")
+		displayTextBarsOneFooter(myValues.cntLabelText, myValues.cntValText, *myParam.countText)
 	}
 	if *myParam.average {
-		displayTextBarsOneFooter(myValues.avgLabelText, myValues.avgValText, "")
+		displayTextBarsOneFooter(myValues.avgLabelText, myValues.avgValText, *myParam.averageText)
 	}
 }
 

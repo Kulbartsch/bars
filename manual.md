@@ -74,8 +74,59 @@ line. If the numbers are at the end use `-at-end`.
 
 ### Separating numeric value and label 
 
-	myParam.addNumChars	= flag.String("add-num-chars", "", "additional characters representing a number")
-	myParam.trimValues = flag.String("trim-chars", ";,", "additional values to white space to trim from label")
+**bars** splits each line of the input data into two parts. One is 
+the *value* the other is the *label* for the value in the chart.
+
+To do this *bars* checks for characters which are part of number
+from one side of the input line. As soon as non-numeric character is
+found the rest of the line is label.
+
+The default number characters are "0123456789+-.,E". You can define
+additional number characters with the flag `-add-num-chars=`.
+This is useful if there is a unit next to the number, which we won't
+like to have as a part of the label.
+The Additional number characters are removed before parsing the
+number.
+
+Example:
+
+    $ echo "15° Outside temperature" | bars
+    ° Outside temperature 15 ██████████████████████████████████
+    $  echo "15° Outside temperature" | bars -add-num-chars=°
+    Outside temperature 15 ████████████████████████████████████
+
+Note: If you want the unit in the output it's reasonable to write it
+in the header for the value with `-value-header="°C"`. 
+For more information see below in the "Title, header and label texts"
+section.
+
+The non-numerical rest of the line is the label. It may still contain
+characters which are unwanted as part of the label. By default, all 
+white-space (space and tab) is trimmed from the label. Additional 
+characters which should be removed, like a semicolon, can be added 
+with the label `-trim-chars=`. 
+Here is difference to the *-add-num-chars* flag, which is been made
+clear in the next example, parsing the average distance of Uranus to
+the sun in Astronomical Units (AU).
+
+Without any parsing flags the unit and semicolon is part of the 
+label:
+
+    $ echo "20AU;Uranus" | bars -ascii
+    AU;Uranus 20 ##############################################
+
+Now we add the unit "AU" and the semicolon to the additional
+number characters. Now the label misses the first "U" of Uranus,
+because if became part of the number:
+
+    $ echo "20AU;Uranus" | bars -ascii -add-num-chars="AU;"
+    ranus 20 ##################################################
+
+The correct way is to add the semicolon to the trim characters:
+
+    $ echo "20AU;Uranus" | bars -ascii -add-num-chars="AU" \
+      -trim-chars=";"
+    Uranus 20 #################################################
 
 ### Decimal comma
 
@@ -83,14 +134,17 @@ By default, numbers are parsed with a dot "." as the decimal
 separator. If you want to use a comma "," just use the flag
 `-comma`.
 
-
 ## Control Output Formatting
 
-**bars** are either displayed as text or as HTML. 
+**bars** are either displayes the input data as text or as HTML
+charts.
 
-terminal or as an email
+The test version is convenient for visualization of data int the 
+terminal or to send is as an email. You may have more ideas of how
+to use it.
 
-an HTML page or snippet.
+The two major HTML versions can be used as a standalone page or 
+for including a chart snippet into an existing website.
 
 To control the output the basic option is `-mode`, which is described
 in the following.
@@ -99,7 +153,7 @@ in the following.
 
 `-mode=color` (or 'colour') is the default mode. It displays the
 information in the terminal using ANSI codes for colorizing and 
-formatting the output.
+formatting the output. This is the default if no mode flag is given.
 
 Alternatively the `-mode=plain` (or `-mode=text`) displays plain
 text without any colors and formatting.
@@ -181,7 +235,7 @@ UTF8 characters.)
 in case there are negative numbers in the data a zero axis is 
 displayed. By default, this is printed using the pipe "|" symbol
 or a vertical line.  
-With the flag "-zero-symbol" this symbol can be changed. 
+With the flag `-zero-symbol` this symbol can be changed. 
 
 The default bar chart symbol "#" can easily be replaced with the
 `-chart-symbol` flag. Of course, it's possible to use any UTF8 symbol
@@ -190,19 +244,63 @@ like "🮱".
 Hint: The output of extra wide UTF8 symbols may look weird, 
 depending on your font and terminal program. 
 
-### Title and header (all modes)
+### Summary lines (all modes)
 
-To display a title above the chart use `--title="My Super Chart"`.
+Below the data charts, summary lines can be displayed: 
 
+* The option `-sum` shows the sum of values.
+* `-count` displays the number of values in the chart.
+* With `-average`, the average of the values are show.
 
-	myParam.labelHeader = flag.String("label-header", "", "header text for the label")
-	myParam.valueHeader = flag.String("value-header", "", "header text for the value")
-	myParam.chartHeader	= flag.String("chart-header", "", "header text for the chart")
+The lines show up in the above order.
+Before each value an appropriate label is printed, depending on the 
+space available for the labels above:
 
-### Summary (all modes)
+* "Sum", "Σ"
+* "Count", "Cnt", "#"
+* "Average", "Avg", "⦵"
 
-	myParam.sum 		= flag.Bool("sum", false, "display sum of values")
-	myParam.count 		= flag.Bool("count", false, "display count of values")
-	myParam.average		= flag.Bool("average", false, "display average of values")
+If a corresponding label oder -label or -text flag is set, the above
+flags are set implicitly.
+
+### Title, header and label texts
+
+There are several options to define a title, headings or custom texts
+for the sum, count and average summary lines.
+
+Using the `-[sum|count|average]-label=` flag override the default 
+text elements for the summary lines.
+
+The following examples shows the flags at there corresponding
+position in the chart:
+
+    -title
+    -label-header      -value-header -chart-header
+    ───────────────── ────────────── ───────────────────────────────────────────────
+    Label A from File 11111111111111 ███████████████
+    Label B from File 22222222222222 ███████████████████████████████
+    Label C from File 33333333333333 ███████████████████████████████████████████████
+    ───────────────── ────────────── ───────────────────────────────────────────────
+    -sum-label        66666666666666 -sum-text
+    -count-label                   3 -count-text
+    -average-label    22222222222222 -average-text
+
+The command used to display this is:
+
+    bars -mode=plain \
+         -title=-title \
+         -label-header=-label-header \
+         -value-header=-value-header \
+         -chart-header=-chart-header \
+         -sum-label=-sum-label \
+         -sum-text=-sum-text \
+         -count-label=-count-label \
+         -count-text=-count-text \
+         -average-label=-average-label \
+         -average-text=-average-text \
+         mini.txt
+
+Remember that the example uses plain UTF-8 text. In color and HTML
+mode all text elements are reasonably formatted.
 
 ## About

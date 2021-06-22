@@ -17,12 +17,14 @@
 * [X] HTML snippet output for integration in a website `-mode=html`. (html)
 * [X] Output CSS template with for integration in a website `-mode=css`. Does not parse anything. (html)
 * [X] Full HTML page with title using `-mode=page`. (html)
-* [X] change option names from CamelCase to "-" separator
 * [X] self defined chart symbol (text)
 * [X] print a sum `-sum`
+* [X] Text-elements `-sum-label` below the label and `-sum-text` below the chart
 * [X] print a count `-count`
+* [X] Text-elements `-count-label` below the label and `-count-text` below the chart
 * [X] print a average `-average`
-* [X] online manual `-manual` (wip)
+* [X] Text-elements `-avg-label` below the label and `-avg-text` below the chart
+* [X] Online-Manual
 
 
 Elements marked with (text) are for text output only. \
@@ -34,32 +36,22 @@ Don't take this list for granted.
 Some ideas might not be implemented, 
 just what I (or you) like/want/need.
 
-WIP 
-
-* [X] print a sum `-sum`
-  * [ ] Text-elements `-sum-label` below the label and `-sum-text` below the chart
-* [X] print a count `-count`
-  * [ ] Text-elements `-count-label` below the label and `-count-text` below the chart
-* [X] print a average `-average`
-  * [ ] Text-elements `-avg-label` below the label and `-avg-text` below the chart
+### WIP 
 
 
-Open 
 
-* [ ] finalize manual 
+### Open 
+
 * [ ] Fixed width of the label text
 * [ ] Fixed Width of the value text
-* [ ] define bar chart length, might be nice to define 100% etc.
+* [ ] define bar chart length, might be nice to define a 100% value etc.
   * [ ] define a maximum value bar length, if exceeded display `>`.
   * [ ] define a minimum value bar length, if below display `<`.
   * [ ] visual hint if zero axis not in visible range.
+* [ ] chart for the "average" summary line
 * [ ] Documentation
   * [ ] better online help `-help`?
   * [ ] more/update examples (COVID)
-* [ ] HTML output
-  * [ ] header level for title (html)
-  * [ ] dark mode output (html)
-* [ ] self defined field separator 
 * [ ] Dynamic terminal width detection
 * [ ] unix tool scripts for use with bars
   * [ ] du
@@ -81,6 +73,9 @@ Open
 
 ### Ideas which are unlikely to be implemented 
 
+* [ ] HTML output
+  * [ ] header level for title (html)
+  * [ ] dark mode output (html) 
 * [ ] Use individual column separator, i.e. a semicolon to use the output as a CSV file. (text)
 * [ ] Output format definition *- I think the way it is now is nice. YAGNI!*
 * [ ] frame around the output (text)

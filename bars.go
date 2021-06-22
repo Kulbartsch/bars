@@ -38,28 +38,34 @@ import (
 var barsManual string
 
 type parameters struct {
-	comma       *bool   // use comma as decimal separator
-	decimals    *int    // number of positions after decimal point for display of percentage. Default 0
-	ascii       *bool   // ... if text-label length exceeds limit, "d" replace last three characters with 3 dots "..." or "e" the last char with unicode ellipsis (U+2026)  "…" (default)
-	comment     *string // lines starting with <t> are ignored as they are comment lines. Default "#". Omitting <t> will define that there are no comments
-	outputWidth *int    // limit text output to n chars. Default 80
-	verbose     *bool   // verbose mode, default false
-	valueAtEnd  *bool   // Values at the end, default at the beginning (false)
-	addNumChars *string // additional number characters
-	about       *bool   // write info about this program
-	zero        *string // the symbol representing the 0 in text chart
-	labelHeader *string // label header
-	valueHeader *string // value header
-	chartHeader *string // chart header
-	mode        *string // display mode
-	noHR        *bool   // don't display horizontal ruler in plain mode
-	title       *string // title for the chart
-	sum         *bool   // display sum of values
-	count       *bool   // display count of values
-	average     *bool   // display average of vales
-	chartSymbol *string // chart symbol
-	trimChars   *string // additional trim values
-	manual      *bool   // show manual
+	comma        *bool   // use comma as decimal separator
+	decimals     *int    // number of positions after decimal point for display of percentage. Default 0
+	ascii        *bool   // ... if text-label length exceeds limit, "d" replace last three characters with 3 dots "..." or "e" the last char with unicode ellipsis (U+2026)  "…" (default)
+	comment      *string // lines starting with <t> are ignored as they are comment lines. Default "#". Omitting <t> will define that there are no comments
+	outputWidth  *int    // limit text output to n chars. Default 80
+	verbose      *bool   // verbose mode, default false
+	valueAtEnd   *bool   // Values at the end, default at the beginning (false)
+	addNumChars  *string // additional number characters
+	about        *bool   // write info about this program
+	zero         *string // the symbol representing the 0 in text chart
+	labelHeader  *string // label header
+	valueHeader  *string // value header
+	chartHeader  *string // chart header
+	mode         *string // display mode
+	noHR         *bool   // don't display horizontal ruler in plain mode
+	title        *string // title for the chart
+	sum          *bool   // display sum of values
+	count        *bool   // display count of values
+	average      *bool   // display average of vales
+	sumLabel     *string // sum label text
+	sumText      *string // sum additional text
+	countLabel   *string // count label text
+	countText    *string // count additional text
+	averageLabel *string // average label text
+	averageText  *string // average additional text
+	chartSymbol  *string // chart symbol
+	trimChars    *string // additional trim values
+	manual       *bool   // show manual
 }
 
 type valuesType struct {
@@ -100,7 +106,7 @@ type chartDataType struct {
 var Description = "bars: generate a bar chart in the terminal or as HTML snippet"
 var Copyright = "Copyright © 2021 Alexander Kulbartsch"
 var License = "License: AGPL-3.0-or-later (GNU Affero General Public License 3 or later)"
-var Version = "Version: v0.8.0 WIP"
+var Version = "Version: v0.8.1"
 var Source = "Source: https://github.com/Kulbartsch/bars"
 
 var myParam parameters
@@ -130,6 +136,12 @@ func initialize() {
 	myParam.sum = flag.Bool("sum", false, "display sum of values")
 	myParam.count = flag.Bool("count", false, "display count of values")
 	myParam.average = flag.Bool("average", false, "display average of values")
+	myParam.sumLabel = flag.String("sum-label", "", "sum label text")
+	myParam.sumText = flag.String("sum-text", "", "sum additional text")
+	myParam.countLabel = flag.String("count-label", "", "count label text")
+	myParam.countText = flag.String("count-text", "", "count additional text")
+	myParam.averageLabel = flag.String("average-label", "", "average label text")
+	myParam.averageText = flag.String("average-text", "", "average additional text")
 	myParam.chartSymbol = flag.String("chart-symbol", "", "alternative symbol for text-mode bars")
 	myParam.trimChars = flag.String("trim-chars", ";,", "additional values to white space to trim from label")
 	myParam.manual = flag.Bool("manual", false, "Show the manual")
@@ -184,7 +196,7 @@ func validateParameters() {
 			mySymbols.headerFiller = '_' // not that nice: '▁'
 		}
 	}
-	// validate mode
+	// extra mode options
 	myValues.mode = strings.ToLower(*myParam.mode)
 	switch myValues.mode {
 	case "colour":
@@ -193,6 +205,26 @@ func validateParameters() {
 		myValues.mode = "plain"
 	case "html":
 		myValues.mode = "page"
+	}
+	// set sum, count, avg if label or texts are used
+	if *myParam.sumLabel != "" || *myParam.sumText != "" {
+		*myParam.sum = true
+	}
+	if *myParam.countLabel != "" || *myParam.countText != "" {
+		*myParam.count = true
+	}
+	if *myParam.averageLabel != "" || *myParam.averageText != "" {
+		*myParam.average = true
+	}
+	// set label texts
+	if *myParam.sumLabel != "" {
+		myValues.sumLabelText = *myParam.sumLabel
+	}
+	if *myParam.countLabel != "" {
+		myValues.cntLabelText = *myParam.countLabel
+	}
+	if *myParam.sumLabel != "" {
+		myValues.avgLabelText = *myParam.averageLabel
 	}
 }
 

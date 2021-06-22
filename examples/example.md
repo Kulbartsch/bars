@@ -120,4 +120,25 @@ The Result:
     Water      0       |
     Count      4
 
-## TODO: exponential numbers  
+
+## TODO:
+
+## HTML Temperatures
+
+     bars  -mode=html -decimals=2 -comma -add-num-chars=°C -at-end -label-header=City -average -sum -count --title="Temperature in Germany" --sum-text="(der Temperaturen)" --sum-label="Summe"  --count-text="Städte" --count-label=Anzahl --average-text="°C" --average-label=Durchschnitt --value-header="°C" temperatur.txt > temperatur.html
+
+## Label Example 
+
+    bars -title=-title \
+        -label-header=-label-header \
+        -value-header=-value-header \
+        -chart-header=-chart-header \
+	    -sum-label=-sum-label \
+	    -sum-text=-sum-text \
+	    -count-label=-count-label \
+	    -count-text=-count-text \
+	    -average-label=-average-label \
+	    -average-text=-average-text \
+        mini.txt
+
+## Exponential numbers  
